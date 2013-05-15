@@ -1,0 +1,426 @@
+<?php
+
+require_once("univis_dicts.php");
+
+class Render {
+	
+
+	/** 
+	* Optionen 
+	* 
+	* @var array
+	* @access private 
+	*/ 
+	private $optionen = NULL; 
+
+
+	/**
+	 * Constructor.
+	 *
+	 *
+	 * @param OPtionen
+	 * @access 	public
+	 */
+	function __construct($optionen) {
+
+		$this->optionen = $optionen;
+		
+	}
+
+
+	function bearbeiteDaten($daten) {
+
+		if (!empty($this->optionen)) {
+			switch($this->optionen["task"]){
+				case "mitarbeiter-alle":
+					return $this->_bearbeiteMitarbeiterAlle($daten);
+
+				case "mitarbeiter-einzeln":
+					return $this->_bearbeiteMitarbeiterEinzeln($daten);
+
+				case "publikationen":
+					return $this->_bearbeitePublikationen($daten);
+
+				case "lehrveranstaltungen-alle":
+					return $this->_bearbeiteLehrveranstaltungenAlle($daten);
+
+				case "lehrveranstaltungen-einzeln":
+					return $this->_bearbeiteLehrveranstaltungenEinzeln($daten);
+
+				default:
+					echo "Fehler: Unbekannter Befehl\n";
+					return -1;
+			}
+		}
+		return -1;
+	}
+
+
+	private function _bearbeiteMitarbeiterAlle($personen) {
+		/////////	Daten Formatieren
+		////////////////
+		//	Array: ["ORGNAME"] => Array: PERSON-ARRAY
+		////////////////
+		$gruppen = array();
+
+		$gruppen_dict = array();
+		foreach ($personen as $person) {
+			if(empty($person["firstname"]))
+				continue;
+			$gruppenName = $person["orgname"];
+			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
+			$name = $person["firstname"]."-".$person["lastname"];
+			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
+			
+			if($gruppen_dict[$gruppenName]==NULL)
+				$gruppen_dict[$gruppenName] = array();
+			array_push($gruppen_dict[$gruppenName], $person);
+		}
+
+		
+		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
+			$gruppen_obj = array(
+				"name" => $gruppen_name,
+				"personen" => $gruppen_personen
+			);
+			
+			array_push($gruppen, $gruppen_obj);
+		}
+
+		if($this->optionen["OrgUnit"] != "") {
+			$gruppe = array(
+				"name" => $this->optionen["OrgUnit"],
+				"personen" => $gruppen_dict[$this->optionen["OrgUnit"]]
+			);
+			$gruppen = array($gruppe);
+		}
+
+		// Sollen die Personen alphabetisch sortiert werden?
+		if($this->optionen["Sortiere_Alphabet"] != 0) {
+			$personen = array();
+			
+			foreach ($gruppen as $gruppe) {
+				foreach ($gruppe["personen"] as $person) {
+					$personen[] = $person;
+				}
+			}
+
+			$personen = $this->record_sort($personen, "lastname");
+			
+			$gruppe = array("name" => "Alle Mitarbeiter", "personen" => $personen);
+			$gruppen = array($gruppe);
+
+		}
+
+		// Zeige keine Sprungmarken falls nur eine OrgUnit vorhanden ist.
+		if(count($gruppen) <= 1) {
+			$this->optionen["Zeige_Sprungmarken"] = 0;
+		}
+
+		return array("gruppen" => $gruppen, "optionen" => $this->optionen);
+	}
+
+	private function _bearbeiteMitarbeiterEinzeln($person) {
+		if(!empty($person)) {
+			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
+			$name = $person["firstname"]."-".$person["lastname"];
+			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
+
+			// Lade Publikationen
+			$publikationen = $this->_bearbeitePublikationen($person["publikationen"]);
+
+			if($publikationen) $person["publikationen"] = $publikationen;
+			else unset($person["publikationen"]);
+
+
+			// Lade Lehrveranstaltungen
+			$lehrveranstaltungen = $this->_bearbeiteLehrveranstaltungenAlle($person["lehrveranstaltungen"]);
+
+			if($lehrveranstaltungen) $person["lehrveranstaltungen"] = $lehrveranstaltungen;
+			else unset($person["lehrveranstaltungen"]);
+
+			return array("person" => $person, "optionen" =>$this->optionen);
+		}
+	}
+
+	private function _bearbeitePublikationen($publications) {
+		if(!$publications) return NULL;
+
+		// Nach Jahren gruppieren
+		$publications = $this->_group_by("year", $publications);
+
+		// Kehre Reihnefolge um: Neu->Alt
+		// Und: Aendere Personendaten so um, dass beim Templateing unterschieden werden kann,
+		// ob es ein kompletter Personendatensatz vorliegt oder nur der Name.
+		// Dazu muss durch verschiedene Schleifen auf die Autoren zugegriffen werden.
+		$publications_sorted = array();
+		for($i = 0; $i < count($publications); $i++) {
+			$year = $publications[count($publications)-1-$i];
+			
+			for ($k=0; $k < count($year["data"]); $k++) { 
+				$publication = $year["data"][$k];
+
+				for ($m=0; $m < count($publication["authors"]); $m++) { 
+					$author = $publication["authors"][$m]["author"];
+
+					for ($a=0; $a < count($author); $a++) { 
+
+						if(array_key_exists("id", $author[$a]["pkey"][0])) {
+							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"] = $year["data"][$k]["authors"][$m]["author"][$a]["pkey"];
+						}else{
+							$name = $year["data"][$k]["authors"][$m]["author"][$a]["pkey"][0]["lastname"];
+							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"][0]["name"] = $name;
+						}
+
+
+						
+					}
+				}
+				
+			}
+			array_push($publications_sorted, $year);
+		}
+
+		$publications = $publications_sorted;
+
+		return array( "years" => $publications, "optionen" => $this->optionen);
+	}
+
+	private function _bearbeiteLehrveranstaltungenAlle($veranstaltungen) {
+		if(!$veranstaltungen) return NULL;
+		
+		$this->_rename_key("type", $veranstaltungen, Dicts::$lecturetypen);
+
+		for ($i=0; $i < count($veranstaltungen); $i++) {
+			// Einzelne Veranstaltung bearbeiten
+			$veranstaltung_edit = $this->_bearbeiteLehrveranstaltungenEinzeln($veranstaltungen[$i]);
+			$veranstaltungen[$i] = $veranstaltung_edit["veranstaltung"];
+		}
+
+		//Nach Jahren gruppieren
+		$veranstaltungen = $this->_group_by("type", $veranstaltungen);
+
+		return array( "veranstaltungen" => $veranstaltungen, "optionen" => $this->optionen);
+	}
+
+	
+	private function _bearbeiteLehrveranstaltungenEinzeln($veranstaltung) {
+
+		
+		$this->_rename_key("type", $veranstaltung, Dicts::$lecturetypen);
+
+		//Begin: Angaben
+		$angaben = array();
+
+		//Typ
+		if($veranstaltung["type"]) {
+			$type = $this->_str_replace_dict(Dicts::$lecturetypen_short, $veranstaltung["type"]);
+			array_push($angaben, $type);
+		}
+
+		//Schein
+		if($veranstaltung["schein"] && $veranstaltung["schein"] == "ja") {
+			array_push($angaben, "Schein");
+		}
+		
+		//SWS
+		if ($veranstaltung["sws"]) {
+			array_push($angaben, $veranstaltung["sws"]." SWS");
+		}
+
+		//ECTS
+		if($veranstaltung["ects"] && $veranstaltung["ects"] == "ja") {
+			array_push($angaben, "ECTS-Studium");
+		}
+
+		if($veranstaltung["ects_cred"]) {
+			array_push($angaben, "ECTS-Credits: ".$veranstaltung["ects_cred"]);
+		}
+
+		//Anfänger
+		if($veranstaltung["beginners"] && $veranstaltung["beginners"] == "ja") {
+			array_push($angaben, "für Anfänger geeignet");
+		}
+
+		//Gasthörer
+		if($veranstaltung["gast"] && $veranstaltung["gast"] == "ja") {
+			array_push($angaben, "für Gasthörer zugelassen");
+		}
+
+		//Evaluation
+		if($veranstaltung["evaluation"] && $veranstaltung["evaluation"] == "ja") {
+			array_push($angaben, "Evaluation");
+		}
+
+		//Unterrrichtssprache
+		if ($veranstaltung["leclanguage"]) {
+			$formated = $this->_str_replace_dict(Dicts::$leclanguages, $veranstaltung["leclanguage"]);
+			array_push($angaben, "Unterrichtssprache ".$formated);
+		}
+
+		//Comment
+		if($veranstaltung["comment"]) {
+			array_push($angaben, $veranstaltung["comment"]);
+		}
+
+		$veranstaltung["angaben"] = implode(", ", $angaben);
+
+		//Begin Zeit und Ort
+		for ($_terms=0; $_terms < count($veranstaltung["terms"]); $_terms++) { 
+			for ($_term=0; $_term < count($veranstaltung["terms"][$_terms]["term"]); $_term++) { 
+				$lecture = &$veranstaltung["terms"][$_terms]["term"][$_term];
+
+				$date = array();
+
+				$repeat = explode(" ", $lecture["repeat"]);
+				if($repeat) {
+					$dict = array(
+						"w1" => "",
+						"w2" => "Alle zwei Wochen",
+						"w2" => "Alle drei Wochen",
+						"w2" => "Alle vier Wochen",
+						"s1" => "Einzeltermin am"
+					);
+
+					if(array_key_exists($repeat[0], $dict)) 
+						array_push($date, $dict[$repeat[0]]);
+
+					if($repeat[0] == "s1") {
+						$formated = date("d.m.Y", strtotime($lecture["startdate"]));
+						array_push($date, $formated);
+					}
+
+					if(count($repeat)>0) {
+						$days_short = array(
+							1 => "Mo",
+							2 => "Di",
+							3 => "Mi",
+							4 => "Do",
+							5 => "Fr",
+							6 => "Sa",
+							7 => "So"
+						);
+
+						$days_long = array(
+							1 => "Montag",
+							2 => "Dienstag",
+							3 => "Mittwoch",
+							4 => "Donnerstag",
+							5 => "Freitag",
+							6 => "Samstag",
+							7 => "Sonntag"
+						);
+
+						array_push($date, $days_short[$repeat[1]]);
+			
+					}
+				}
+
+				$lecture["date"] = implode(" ", $date);
+
+				$lecture["room_short"] = $lecture["room"][0]["short"];
+
+				if($lecture["exclude"]) {
+					$dates = explode(",", $lecture["exclude"]);
+
+					for ($i=0; $i < count($dates); $i++) { 
+						if($dates[$i]=="vac")
+							unset($dates[$i]);
+						else
+							$dates[$i] = date("d.m.Y", strtotime($dates[$i]));
+					}
+
+					$lecture["exclude"] = implode(", ", $dates);
+				}
+			}
+		}//end Zeit und Ort
+
+
+		//Summary
+		$veranstaltung["summary"] = str_replace("\n", "<br/>", $veranstaltung["summary"]);
+
+		//Organizational
+		$veranstaltung["organizational"] = str_replace("\n", "<br/>", $veranstaltung["organizational"]);
+
+		//ECTS Summary
+		$veranstaltung["ects_summary"] = str_replace("\n", "<br/>", $veranstaltung["ects_summary"]);
+
+		$veranstaltung["ects_infos"] = ($veranstaltung["ects_name"] || $veranstaltung["ects_summary"] || $veranstaltung["ects_literature"]);
+		$veranstaltung["zusatzinfos"] = ($veranstaltung["keywords"] || $veranstaltung["turnout"] || $veranstaltung["url_description"]);
+
+		return array( "veranstaltung" => $veranstaltung, "optionen" => $this->optionen);
+	}
+
+	private function _str_replace_dict($dict, $str) {
+		foreach ($dict as $key => $value) {
+			$str = str_replace($key, $value, $str);
+		}
+		return $str;
+	}
+
+	private function _rename_key($search_key, &$arr, $dict) {
+		foreach ($arr as &$veranstaltung) {
+			foreach ($veranstaltung as $key => &$value) {
+				if($key == $search_key) {
+					$value = $this->_str_replace_dict($dict, $value);
+				}
+			}
+		}
+	}
+
+	private function _group_by($key_name, $arr) {
+
+		$gruppen = array();
+
+		$gruppen_dict = array();
+		foreach ($arr as $child) {
+	
+			$gruppenName = $child[$key_name];
+			
+			if($gruppen_dict[$gruppenName]==NULL)
+				$gruppen_dict[$gruppenName] = array();
+			array_push($gruppen_dict[$gruppenName], $child);
+		}
+		
+		foreach ($gruppen_dict as $gruppen_name => $gruppen_data) {
+			$gruppen_obj = array(
+				"title" => $gruppen_name,
+				"data" => $gruppen_data
+			);
+			
+			array_push($gruppen, $gruppen_obj);
+		}
+
+		return $gruppen;
+	}
+
+	private function umlaute_ersetzen($text){
+		$such_array  = array ('ä', 'ö', 'ü', 'ß');
+		$ersetzen_array = array ('ae', 'oe', 'ue', 'ss');	
+		$neuer_text  = str_replace($such_array, $ersetzen_array, $text);
+		return $neuer_text;
+	}
+
+	private function record_sort($records, $field, $reverse=false) {
+	    $hash = array();
+	    
+	    foreach($records as $record)
+	    {
+	        $hash[$record[$field]] = $record;
+	    }
+	    
+	    ($reverse)? krsort($hash) : ksort($hash);
+	    
+	    $records = array();
+	    
+	    foreach($hash as $record)
+	    {
+	        $records[] = $record;
+	    }
+	    
+	    return $records;
+	}
+
+}
+
+?>

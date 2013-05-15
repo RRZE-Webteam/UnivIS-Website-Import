@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+  <head>
+    <title>Aktuelles</title>
+    <!--#include virtual="/ssi/head.shtml" --> 
+  </head>
+  <body>  <!-- begin: body -->
+  <div class="page_margins">  <!-- begin: page_margins --> 
+    <div id="seite" class="page">  <!-- begin: seite -->
+      <a name="seitenmarke" id="seitenmarke"></a>
+      
+      <div id="kopf">  <!-- begin: kopf -->   
+		  	<div id="logo">
+				 <p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</a></p>
+			</div>
+			<div id="titel">	 	
+        		<h1>Mitarbeiter Alle</h1> 
+			</div>       
+		 	<!--#include virtual="/ssi/kopf.shtml" -->             
+		</div>  <!-- end: kopf -->
+      	<hr id="nachkopf" />  
+		<div id="main">  <!-- begin: main -->
+      		<div id="menu">  <!-- begin: menu -->	  
+		        <div id="bereichsmenu">
+		         	<h2><a name="bereichsmenumarke" id="bereichsmenumarke">Navigation</a></h2>      
+				  	<!--#include virtual="/cgi-bin/navigation/navigation.pl" -->		  
+		        </div>
+		        <!--#include virtual="/ssi/kurzinfo.shtml" -->		
+		     </div>  <!-- end: menu -->
+
+      
+			<!-- CONTENT ****************************************************************** -->
+			<!-- ************************************************************************** -->       
+	    	<div id="content">  <!-- begin: content -->
+	        <a name="contentmarke" id="contentmarke"></a>                  		
+			<!--#include virtual="/ssi/inhaltsinfo.shtml" -->		
+
+			<!-- TEXT AB HIER --> 
+
+	
+			   	 <!--#include virtual="/vkdaten/tools/univis/lehrveranstaltungen-einzeln.php" -->
+    
+      
+	   		 <!-- AB HIER KEIN TEXT MEHR --> 	
+             
+      		 <hr id="vorfooter" />
+	      	</div>  <!-- end: content -->                       
+     	</div>  <!-- end: main -->                   
+        <div id="footer">  <!-- begin: footer -->
+           <h2><a name="footermarke" id="footermarke">Informationen zur Seite</a></h2>
+           <p class="last_modified">Letzte &Auml;nderung: <!--#config timefmt="%d.%m.%Y um %H:%M Uhr"--><!--#echo var="LAST_MODIFIED"--></p>			
+           <div id="footerinfos">  <!-- begin: footerinfos -->
+              <!--#include virtual="/ssi/footerinfos.shtml" -->
+              <!--#include virtual="/ssi/zusatzinfo.shtml" -->		
+           </div> <!-- end: footerinfos -->	
+        </div>   <!-- end: footer -->
+        
+    </div>  <!-- end: seite -->
+  </div>  <!-- end: page_margins  -->
+  </body> <!-- end: body -->
+</html>

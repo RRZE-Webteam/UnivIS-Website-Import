@@ -1,0 +1,155 @@
+{{#person}}
+<div id="univis-personenseite">
+
+	<!-- Zusatzinformationen aus Dateiverzeichnis -->
+	{{#assets}}
+		{{#bild}}
+			<img class="bildlinks" src="{{bild}}">
+		{{/bild}}
+	{{/assets}}
+
+	<div class="vcard">
+    	<h2 class="fn">
+    		{{#title}}
+            <span class="honorific-prefix"><acronym title="{{title-long}}">{{title}}</acronym></span>
+            {{/title}}
+            <span class="given-name">{{firstname}}</span> <span class="family-name">{{lastname}}</span>
+            {{#atitle}}
+            <span class="honorific-suffix"><acronym title="{{atitle}}">SHK</acronym></span>
+            {{/atitle}}
+        </h2>
+		
+		<address>
+		    <p>
+			    <span class="org">
+			        <span class="organization-name">Zentrale Einrichtungen</span><br />
+			        {{#orgunits}}
+			        <span class="organization-unit">Abteilung {{orgunit}}</span><br />
+			        {{/orgunits}}
+			    </span>
+		    </p>
+
+		    {{#locations}}
+				{{#location}}
+				<h3>Anschrift</h3>
+			    <ul class="kontakt">
+			    	 <span class="adr">
+				    	{{#street}}
+				        <span class="street-address">{{street}}</span><br>
+				        {{/street}}
+				        {{#ort}}
+				        <span class="locality">{{ort}}</span>
+				        {{/ort}}
+				    </span> 
+			    	{{#email}} 
+	                <li>E-Mail: <a class="email" href="mailto:{{email}}">{{email}}</a></li>
+	                {{/email}}
+	                {{#tel}}
+	                <li>Telefon: <span class="tel">{{tel}}</span></li>
+	                {{/tel}}
+	                {{#fax}}
+	                <li>Fax: <span class="fax">{{fax}}</span></li>
+	                {{/fax}}
+	                {{#office}}
+	                <li>Raum: <span class="office">{{office}}</span></li>
+	                {{/office}}               
+			    </ul>
+			    {{/location}}
+			{{/locations}}
+	    </address>
+	</div>
+
+	<div class="accordion" style="padding-top: 30px;">
+		<!-- Zusatzinformationen aus Dateiverzeichnis -->
+		{{#assets}}
+			{{#beschreibung}}
+				<h3>Information zur Person</h3>
+				<div>
+					<pre>{{{beschreibung}}}</pre>
+				</div>
+			{{/beschreibung}}
+		{{/assets}}
+
+		<!-- Lehrveranstaltungen -->
+		{{#lehrveranstaltungen}}
+			<h3>Lehrveranstaltungen</h3>
+			<div>
+				<ul>
+					{{#lehrveranstaltungen}}
+						{{#veranstaltungen}}
+						<li>
+							<h3>{{title}}</h3>
+							<ul>
+								{{#data}}
+									<li><a href="../../{{#optionen}}{{Lehrveranstaltung_Verzeichnis}}{{/optionen}}/index.shtml/{{id}}.shtml">{{name}}</a></li>
+								{{/data}}
+							</ul>
+						</li>
+						{{/veranstaltungen}}
+					{{/lehrveranstaltungen}}
+				</ul>
+			</div>
+		{{/lehrveranstaltungen}}
+
+		{{#publikationen}}
+			<h3>Publikationen</h3>
+			<div>
+			{{#publikationen}}
+				{{#years}}
+
+					<h4>{{title}}</h4>
+					<ul>
+						{{#data}}
+							<li style="margin-bottom: 10px;">
+							<span>
+								{{#authors}}
+									{{#author}}
+										{{#pkey}}
+											
+											{{#full-profile}}
+												<a href="../../{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/index.shtml/{{firstname}}-{{lastname}}.shtml">{{lastname}}, {{firstname}}</a>; 
+											{{/full-profile}}
+
+											{{^full-profile}}
+												{{name}}; 
+											{{/full-profile}}
+											
+
+										
+										{{/pkey}}
+									{{/author}}
+								{{/authors}}
+							</span>
+							<br />
+							<span style="font-weight: 600;">{{pubtitle}}</span>
+							<br />
+							<span>
+								{{#booktitle}}
+									{{booktitle}},
+								{{/booktitle}}
+								{{#plocation}}
+									{{plocation}}
+								{{/plocation}}
+								{{#address}}
+									{{address}},
+								{{/address}} 
+
+								{{year}}
+							</span>
+							<br />
+						</li>
+						{{/data}}
+					</ul>
+				{{/years}}
+			{{/publikationen}}
+		</div>
+		{{/publikationen}}
+	</div> <!-- end: div.accordion -->
+
+	<script> 
+		$( ".accordion" ).accordion({
+	      heightStyle: "content"
+	    });
+    </script>
+</div>
+{{/person}}
