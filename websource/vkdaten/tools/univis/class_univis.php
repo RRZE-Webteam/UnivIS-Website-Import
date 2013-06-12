@@ -68,6 +68,10 @@ class UNIVIS {
 					$this->daten = $this->_ladeLehrveranstaltungenEinzeln();
 					break;
 
+				case "lehrveranstaltungen-kalender":
+					$this->daten = $this->_ladeLehrveranstaltungenKalender();
+					break;					
+
 				default:
 					echo "Fehler: Unbekannter Befehl\n";
 					break;
@@ -214,6 +218,9 @@ class UNIVIS {
 
 	}
 
+	private function _ladeLehrveranstaltungenKalender($dozentid = NULL) {
+		return $this->_ladeLehrveranstaltungenAlle($dozentid);
+	}
 
 	private function _ladeLehrveranstaltungenEinzeln() {
 		// Hole Daten von Univis

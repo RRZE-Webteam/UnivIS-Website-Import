@@ -1,6 +1,7 @@
 <?php
 
 require_once("univis_dicts.php");
+require_once 'iCalcreator.class.php';
 
 class Render {
 	
@@ -46,6 +47,9 @@ class Render {
 
 				case "lehrveranstaltungen-einzeln":
 					return $this->_bearbeiteLehrveranstaltungenEinzeln($daten);
+
+				case "lehrveranstaltungen-kalender":
+					return $this->_bearbeiteLehrveranstaltungenKalender($daten);
 
 				default:
 					echo "Fehler: Unbekannter Befehl\n";
@@ -203,7 +207,76 @@ class Render {
 		return array( "veranstaltungen" => $veranstaltungen, "optionen" => $this->optionen);
 	}
 
-	
+	private function _bearbeiteLehrveranstaltungenKalender($veranstaltungen) {
+		if(!$veranstaltungen) return NULL;
+		
+		$this->_rename_key("type", $veranstaltungen, Dicts::$lecturetypen);
+
+		$tz     = "Europe/Berlin";                   // define time zone
+		$config = array( "unique_id" => "fau.rrze.kalender.univis" // set a (site) unique id
+		               , "TZID"      => $tz );          // opt. "calendar" timezone
+		$v      = new vcalendar( $config );
+		$v->setProperty('method', 'PUBLISH' );
+		$v->setProperty( "x-wr-calname", "Lehrveranstaltungen" );
+		$v->setProperty( "X-WR-CALDESC", "Lehrveranstaltungen" );
+		$v->setProperty( "X-WR-TIMEZONE", $tz );
+
+		foreach ($veranstaltungen as $veranstaltung) {
+			$veranstaltung = $this->_bearbeiteLehrveranstaltungenEinzeln($veranstaltung);
+			$veranstaltung = $veranstaltung["veranstaltung"];
+
+			$titel = $veranstaltung["name"];
+			$beschreibung = $veranstaltung["summary"];
+			$details = $veranstaltung["details"];
+
+			foreach ($veranstaltung["terms"] as $terms) {
+				foreach ($terms as $term) {
+					foreach ($term as $ev) {
+						$vevent = new vevent();
+
+						$startdate;
+						$enddate;
+
+						if(isset($ev["repeat"])) {
+							if(substr($ev["repeat"],0,1) == "w") {
+								// Woechentlich
+								$tage = substr($ev["repeat"],3,1);
+								$startdate = date("Ymd\THi", strtotime("Sunday ".$ev["starttime"]." + ".$tage." Days - 3 Weeks"));
+								$enddate = date("Ymd\THi", strtotime("Sunday ".$ev["endtime"]." + ".$tage." Days - 3 Weeks"));
+								$vevent->setProperty( "rrule", array( "FREQ" => "WEEKLY", "INTERVAL" => substr($ev["repeat"],1,1)));
+							}
+
+							if(substr($ev["repeat"],0,1) == "s") {
+								// Einzeltermin
+								$startdate = date("Ymd\THi", strtotime($ev["startdate"]." ".$ev["starttime"]));
+								$enddate = date("Ymd\THi", strtotime($ev["enddate"]." ".$ev["endtime"]));
+							}
+
+							if(substr($ev["repeat"],0,1) == "b") {
+								// Blocktermin
+								$startdate = date("Ymd\THi", strtotime($ev["startdate"]." ".$ev["starttime"]));
+								$enddate = date("Ymd\THi", strtotime($ev["startdate"]." ".$ev["endtime"]));
+								$tage = (strtotime($ev["enddate"]) - strtotime($ev["startdate"])) / (60*60*24) + 1;
+								$vevent->setProperty( "rrule", array( "FREQ" => "DAILY", "COUNT" => $tage));
+							}
+						}
+
+						
+					
+						$vevent->setProperty( "dtstart", $startdate );
+						$vevent->setProperty( "dtend", $enddate );
+						$vevent->setProperty( "LOCATION", $ev["room_short"]);
+						$vevent->setProperty('SUMMARY', $titel);
+						$vevent->setProperty('DESCRIPTION', $beschreibung);
+						$v->setComponent($vevent);
+					}		
+				}
+			}
+		}
+		
+		return array( "ics" => $v->returnCalendar(), "optionen" => $this->optionen);		
+	}
+
 	private function _bearbeiteLehrveranstaltungenEinzeln($veranstaltung) {
 
 		
