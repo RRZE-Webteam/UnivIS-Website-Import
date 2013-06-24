@@ -12,7 +12,9 @@
 	$args = (!empty($_GET)) ? $_GET:array('task'=>$argv[1]);
 
 	$name  = substr($_SERVER["PATH_INFO"], 1, -6);
-	$name = split("-", $name);
+	$name = str_replace(" ", "%20", $name);
+	$name = split("_", $name);
+
 	$args["firstname"] = fix_for_page($name[0]);
 	$args["lastname"] = fix_for_page($name[1]);
 

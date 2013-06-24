@@ -76,7 +76,7 @@ class Cache {
 	private function filepath() {
 		// Key md5 codieren
 		$key = md5($this->key());
-		return $this::$path."/".$key;
+		return self::$path."/".$key;
 	}
 
 	private function key() {

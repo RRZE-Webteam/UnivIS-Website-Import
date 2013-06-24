@@ -83,7 +83,7 @@ class UNIVIS {
 
 	private function _ladeMitarbeiterAlle() {
 		// Hole Daten von Univis
-		$url = $this->univis_url."?search=persons&department=".$this->optionen["UnivISOrgNr"]."&show=xml";
+		$url = $this->univis_url."?search=departments&number=".$this->optionen["UnivISOrgNr"]."&show=xml";
 		
 		if(!fopen($url, "r")) {
 			// Univis Server ist nicht erreichbar
@@ -91,10 +91,31 @@ class UNIVIS {
 		}
 
 		// XML Daten Parsen
-		$persArray = $this->xml2array($url);
-		$personen = $persArray["Person"];
+		$daten = $this->xml2array($url);
 
-		return $personen;
+		if($this->optionen["Sortiere_Jobs"]) {
+
+			$jobs = $daten["Org"][0]["jobs"][0]["job"];
+			
+			$personen_jobs = array();
+			for ($i=0; $i < count($jobs); $i++) { 
+				
+				for ($j=0; $j < count($jobs[$i]["pers"][0]["per"]); $j++) { 
+
+					$personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]] = $jobs[$i]["description"];
+				}
+			}
+
+			for ($k=0; $k < count($daten["Person"]); $k++) { 
+				$key = $daten["Person"][$k]["@attributes"]["key"];
+
+				if(isset($personen_jobs[$key])) {
+					$daten["Person"][$k]["rang"] = $personen_jobs[$key];
+				}
+			}
+		}
+
+		return $daten["Person"];
 	}
 
 
@@ -125,6 +146,8 @@ class UNIVIS {
 		$url = $this->univis_url."?search=persons&department=".$this->optionen["UnivISOrgNr"]."&name=".$this->optionen["lastname"]."&firstname=".$this->optionen["firstname"]."&show=xml";
 
 		$url = $this->umlaute_ersetzen($url);
+
+		
 
 		if(!fopen($url, "r")) {
 			// Univis Server ist nicht erreichbar
@@ -204,6 +227,7 @@ class UNIVIS {
 			// Univis Server ist nicht erreichbar
 			return -1;
 		}
+
 
 		$array = $this->xml2array($url);
 		$veranstaltungen = $array["Lecture"];

@@ -9,7 +9,7 @@
 					{{#author}}
 						{{#pkey}}
 							{{#full-profile}}
-								<a href="{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/index.shtml/{{firstname}}-{{lastname}}.shtml">{{lastname}}, {{firstname}}</a>; 
+								<a href="{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{firstname}}_{{lastname}}.shtml">{{lastname}}, {{firstname}}</a>; 
 							{{/full-profile}}
 
 							{{^full-profile}}

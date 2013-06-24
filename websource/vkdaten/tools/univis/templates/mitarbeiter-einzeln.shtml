@@ -81,7 +81,7 @@
 							<h3>{{title}}</h3>
 							<ul>
 								{{#data}}
-									<li><a href="../../{{#optionen}}{{Lehrveranstaltung_Verzeichnis}}{{/optionen}}/index.shtml/{{id}}.shtml">{{name}}</a></li>
+									<li><a href="../../{{#optionen}}{{Lehrveranstaltung_Verzeichnis}}{{/optionen}}/{{id}}.shtml">{{name}}</a></li>
 								{{/data}}
 							</ul>
 						</li>
@@ -107,7 +107,7 @@
 										{{#pkey}}
 											
 											{{#full-profile}}
-												<a href="../../{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/index.shtml/{{firstname}}-{{lastname}}.shtml">{{lastname}}, {{firstname}}</a>; 
+												<a href="../../{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{firstname}}-{{lastname}}.shtml">{{lastname}}, {{firstname}}</a>; 
 											{{/full-profile}}
 
 											{{^full-profile}}
