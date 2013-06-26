@@ -96,13 +96,28 @@ class UNIVIS {
 		if($this->optionen["Sortiere_Jobs"]) {
 
 			$jobs = $daten["Org"][0]["jobs"][0]["job"];
+
+			$xjobs = array();
+
+			if($this->optionen["Ignoriere_Jobs"]) {
+				$xjobs = explode("|", $this->optionen["Ignoriere_Jobs"]);
+			}
 			
 			$personen_jobs = array();
 			for ($i=0; $i < count($jobs); $i++) { 
 				
-				for ($j=0; $j < count($jobs[$i]["pers"][0]["per"]); $j++) { 
+			
+				if(in_array($jobs[$i]["description"], $xjobs)) {
+					continue;
+				}
 
-					$personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]] = $jobs[$i]["description"];
+				for ($j=0; $j < count($jobs[$i]["pers"][0]["per"]); $j++) { 
+					if($personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]]) {
+						$personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]] .= "|".$jobs[$i]["description"];
+					}else{
+						$personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]] = $jobs[$i]["description"];
+					}
+					
 				}
 			}
 

@@ -80,7 +80,11 @@ class Render {
 		foreach ($personen as $person) {
 			if(empty($person["firstname"]))
 				continue;
-			$gruppenName = $person[$such_kategorie];
+
+			if(empty($person[$such_kategorie])) {
+				continue;
+			}
+			
 			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
 			$name = $person["firstname"]."_".$person["lastname"];
 			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
@@ -88,11 +92,18 @@ class Render {
 			//$person["nameurl"] = str_replace("-", "_", $person["nameurl"]);
 			$person["nameurl"] = str_replace(" ", "%20", $person["nameurl"]);
 
+			$gruppen_namen = explode("|", $person[$such_kategorie]);
+
+			foreach ($gruppen_namen as $gruppen_name) {
+				if($gruppen_dict[$gruppen_name]==NULL) {
+					$gruppen_dict[$gruppen_name] = array();
+				}
 			
-			if($gruppen_dict[$gruppenName]==NULL)
-				$gruppen_dict[$gruppenName] = array();
-			array_push($gruppen_dict[$gruppenName], $person);
+				array_push($gruppen_dict[$gruppen_name], $person);
+			}
 		}
+
+		//var_dump($gruppen_dict);
 
 		
 		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
@@ -256,8 +267,8 @@ class Render {
 							if(substr($ev["repeat"],0,1) == "w") {
 								// Woechentlich
 								$tage = substr($ev["repeat"],3,1);
-								$startdate = date("Ymd\THi", strtotime("Sunday ".$ev["starttime"]." + ".$tage." Days - 3 Weeks"));
-								$enddate = date("Ymd\THi", strtotime("Sunday ".$ev["endtime"]." + ".$tage." Days - 3 Weeks"));
+								$startdate = date("Ymd\THi", strtotime("Sunday ".$ev["starttime"]." + ".$tage." Days - 30 Weeks"));
+								$enddate = date("Ymd\THi", strtotime("Sunday ".$ev["endtime"]." + ".$tage." Days - 30 Weeks"));
 								$vevent->setProperty( "rrule", array( "FREQ" => "WEEKLY", "INTERVAL" => substr($ev["repeat"],1,1)));
 							}
 
