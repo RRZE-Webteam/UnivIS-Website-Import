@@ -86,11 +86,11 @@ class Render {
 			}
 			
 			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
-			$name = $person["firstname"]."_".$person["lastname"];
+			$name = $person["firstname"]."-".$person["lastname"];
 			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
 
 			//$person["nameurl"] = str_replace("-", "_", $person["nameurl"]);
-			$person["nameurl"] = str_replace(" ", "%20", $person["nameurl"]);
+			$person["nameurl"] = str_replace(" ", "-", $person["nameurl"]);
 
 			$gruppen_namen = explode("|", $person[$such_kategorie]);
 
@@ -494,8 +494,16 @@ class Render {
 	}
 
 	private function umlaute_ersetzen($text){
-		$such_array  = array ('ä', 'ö', 'ü', 'ß');
-		$ersetzen_array = array ('ae', 'oe', 'ue', 'ss');	
+		$such_array  = array ('ä', 'à', 'á', 'â', 'æ', 'ã', 'å', 'ā', 
+							  'ö', 'ô', 'ò', 'ó', 'œ', 'ø', 'ō', 'õ',
+							  'ü', 'û', 'ù', 'ú', 'ū',
+							  'è', 'é', 'ê', 'ë', 'ē', 'ė', 'ę', 
+							  'ß');
+		$ersetzen_array = array ('ae', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
+								 'oe', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 
+								 'ue', 'u', 'u', 'u', 'u',
+								 'e', 'e', 'e', 'e', 'e', 'e', 'e',
+								 'ss');	
 		$neuer_text  = str_replace($such_array, $ersetzen_array, $text);
 		return $neuer_text;
 	}

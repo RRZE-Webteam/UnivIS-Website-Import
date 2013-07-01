@@ -12,11 +12,11 @@
 	$args = (!empty($_GET)) ? $_GET:array('task'=>$argv[1]);
 
 	$name  = substr($_SERVER["PATH_INFO"], 1, -6);
-	$name = str_replace(" ", "%20", $name);
-	$name = split("_", $name);
+	$name = fix_for_page($name);
+	$name = split("-", $name);
 
 	$args["firstname"] = fix_for_page($name[0]);
-	$args["lastname"] = fix_for_page($name[1]);
+	$args["lastname"] = fix_for_page($name[count($name)-1]);
 
 	$controller = new Controller("mitarbeiter-einzeln", $args);
 	echo $controller->ladeHTML();
