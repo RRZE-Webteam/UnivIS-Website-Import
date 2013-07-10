@@ -197,12 +197,12 @@ class Render {
 
 						if(array_key_exists("id", $author[$a]["pkey"][0])) {
 							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"] = $year["data"][$k]["authors"][$m]["author"][$a]["pkey"];
+							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["firstname_small"] = strtolower($year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["firstname"]);
+							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["lastname_small"] = strtolower($year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["lastname"]);
 						}else{
 							$name = $year["data"][$k]["authors"][$m]["author"][$a]["pkey"][0]["lastname"];
 							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"][0]["name"] = $name;
 						}
-
-
 						
 					}
 				}
@@ -307,6 +307,16 @@ class Render {
 
 		
 		$this->_rename_key("type", $veranstaltung, Dicts::$lecturetypen);
+
+		// Dozs
+		for ($i = 0; $i<count($veranstaltung["dozs"]); $i++) {
+			for ($k = 0; $k < count($veranstaltung["dozs"][$i]["doz"]); $k++) {
+
+				$veranstaltung["dozs"][$i]["doz"][$k]["firstname_small"] = strtolower($veranstaltung["dozs"][$i]["doz"][$k]["firstname"]);
+				$veranstaltung["dozs"][$i]["doz"][$k]["lastname_small"] = strtolower($veranstaltung["dozs"][$i]["doz"][$k]["lastname"]);
+			}
+		}
+
 
 		//Begin: Angaben
 		$angaben = array();
@@ -446,6 +456,7 @@ class Render {
 
 		$veranstaltung["ects_infos"] = ($veranstaltung["ects_name"] || $veranstaltung["ects_summary"] || $veranstaltung["ects_literature"]);
 		$veranstaltung["zusatzinfos"] = ($veranstaltung["keywords"] || $veranstaltung["turnout"] || $veranstaltung["url_description"]);
+
 
 		return array( "veranstaltung" => $veranstaltung, "optionen" => $this->optionen);
 	}

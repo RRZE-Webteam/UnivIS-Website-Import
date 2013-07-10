@@ -103,7 +103,7 @@ class Controller {
 
 		// defaults
 		$defaults = array(
-			'UnivISOrgNr' => '420100',
+			'UnivISOrgNr' => '0',
 			'task' => 'mitarbeiter-alle',
 			'Personenanzeige_Bildsuche' =>	'1',
 			'Personenanzeige_ZusatzdatenInDatei' =>	'1',
@@ -113,7 +113,8 @@ class Controller {
 			'START_WINTERSEMESTER' => '1.10',
 			'Zeige_Sprungmarken' => '1',
 			'OrgUnit' => '',
-			'Sortiere_Alphabet' => '0'
+			'Sortiere_Alphabet' => '0',
+			'Sortiere_Jobs' => '1'
 		);
 
 		// load options

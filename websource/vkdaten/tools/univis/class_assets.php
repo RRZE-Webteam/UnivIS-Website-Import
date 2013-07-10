@@ -85,7 +85,7 @@ class Assets {
 		}
 		
 		$path = "../../../";
-		$path = $path.$optionen["Datenverzeichnis"]."/assets/".$optionen["task"];
+		$path = $path.$optionen["Datenverzeichnis"]."/daten/".$optionen["task"];
 		switch ($optionen["task"]) {
 			case 'mitarbeiter-alle':				return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'mitarbeiter-einzeln':				return $path."/".strtolower($optionen["firstname"]."-".$optionen["lastname"]);
@@ -100,4 +100,4 @@ class Assets {
 
 }
 
-?>
+?>>
