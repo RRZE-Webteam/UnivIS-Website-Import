@@ -15,7 +15,7 @@
             {{/title}}
             <span class="given-name">{{firstname}}</span> <span class="family-name">{{lastname}}</span>
             {{#atitle}}
-            <span class="honorific-suffix"><acronym title="{{atitle}}">SHK</acronym></span>
+            <span class="honorific-suffix"><acronym title="{{atitle}}">{{ atitle }}</acronym></span>
             {{/atitle}}
         </h2>
 		
@@ -65,7 +65,7 @@
 			{{#beschreibung}}
 				<h3>Information zur Person</h3>
 				<div>
-					<pre>{{{beschreibung}}}</pre>
+					{{beschreibung}}}
 				</div>
 			{{/beschreibung}}
 		{{/assets}}
