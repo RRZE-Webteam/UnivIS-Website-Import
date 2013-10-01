@@ -7,13 +7,13 @@ require_once("class_assets.php");
 require 'Mustache/Autoloader.php';
 
 class Controller {
-	
-		/** 
-	* Optionen 
-	* 
+
+		/**
+	* Optionen
+	*
 	* @var array
-	* @access private 
-	*/ 
+	* @access private
+	*/
 	private $optionen = NULL;
 
 	/**
@@ -27,7 +27,7 @@ class Controller {
 	function __construct($task, $args, $confFile=NULL) {
 
 		$this->_ladeConf($confFile, $args);
-		
+
 		if($task && $this->optionen)
 			$this->optionen["task"] = $task;
 
@@ -58,7 +58,7 @@ class Controller {
 
 			// Daten rendern
 			$html = $this->_renderTemplate($daten);
-			
+
 			if($html != -1) {	//Rendern erfolgreich?
 
 				// Gerenderte Daten in Cache speichern
@@ -78,7 +78,7 @@ class Controller {
 				// Konnte keine Daten laden. Alternativausgabe laden
 				if($this->optionen["task"] == "mitarbeiter-einzeln") {
 					// Lade Mitarbeiter Alle
-					echo "<h2>Fehler: Konnte Person nicht finden.</h2><br>";
+					echo "<h2>Fehler: Konnte Person nicht finden.</h2><br />";
 					$this->optionen["task"] = "mitarbeiter-alle";
 					return $this->ladeHTML();
 				}
@@ -91,9 +91,9 @@ class Controller {
 
 		$m = new Mustache_Engine;
 		$template = $this->_get_template();
-		
+
 		if($template == -1) return -1;
-		
+
 		return  $m->render($template, $daten);
 	}
 

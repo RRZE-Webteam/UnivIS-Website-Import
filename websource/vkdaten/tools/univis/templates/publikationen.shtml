@@ -9,11 +9,11 @@
 					{{#author}}
 						{{#pkey}}
 							{{#full-profile}}
-								<a href="{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{firstname_small}}-{{lastname_small}}.shtml">{{lastname}}, {{firstname}}</a>; 
+								<a href="{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{firstname_small}}-{{lastname_small}}.shtml">{{lastname}}, {{firstname}}</a>;
 							{{/full-profile}}
 
 							{{^full-profile}}
-								{{name}}; 
+								{{name}};
 							{{/full-profile}}
 						{{/pkey}}
 					{{/author}}
@@ -31,7 +31,7 @@
 				{{/plocation}}
 				{{#address}}
 					{{address}},
-				{{/address}} 
+				{{/address}}
 				{{year}}
 			</span>
 			<br>
@@ -39,5 +39,3 @@
 		{{/data}}
 	</ul>
 {{/years}}
-
-h2>span

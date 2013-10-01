@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+	  <!-- NAVEDITOR_TEMPL_TYPE=VORL -->
+    <title>$PLATZHALTER-NAME-WEBAUFTRITT : Mitarbeiter</title>
+    <!--#include virtual="/ssi/head.shtml" -->
+  </head>
+  <body id="start">  <!-- begin: body -->
+  <div class="page_margins">  <!-- begin: page_margins -->
+    <div id="seite" class="page">  <!-- begin: seite -->
+      <a name="seitenmarke" id="seitenmarke"></a>
+
+      <header><div id="kopf">  <!-- begin: kopf -->
+		  	<div id="logo"><a href="/"></a><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</span></p></div>
+			<div id="titel"><h1>Mitarbeiter</h1></div>
+		 	<!--#include virtual="/ssi/kopf.shtml" -->
+	</div></header>  <!-- end: kopf -->
+      	<hr id="nachkopf" />
+		<div id="main">  <!-- begin: main -->
+      		<div id="menu">  <!-- begin: menu -->
+		        <div id="bereichsmenu">
+		         	<h2><a name="bereichsmenumarke" id="bereichsmenumarke">Navigation</a></h2>
+				  	<!--#include virtual="/cgi-bin/navigation/navigation.pl" -->
+		        </div>
+		        <!--#include virtual="/ssi/kurzinfo.shtml" -->
+		</div>  <!-- end: menu -->
+		<!--#include virtual="/ssi/sidebar.shtml" -->
+
+		<!-- CONTENT ****************************************************************** -->
+		<!-- ************************************************************************** -->
+	    	<div id="content">  <!-- begin: content -->
+	        <a name="contentmarke" id="contentmarke"></a>
+			<!--#include virtual="/ssi/inhaltsinfo.shtml" -->
+
+			<!-- TEXT AB HIER -->
+
+
+			<!--#include virtual="/vkdaten/tools/univis/mitarbeiter-einzeln.php" -->
+
+
+			<!-- AB HIER KEIN TEXT MEHR -->
+
+      		<hr id="vorfooter" />
+	      	</div>  <!-- end: content -->
+     	</div>  <!-- end: main -->
+        <footer><div id="footer">  <!-- begin: footer -->
+           <h2><a name="footermarke" id="footermarke">Informationen zur Seite</a></h2>
+            <p class="last_modified"><span>Letzte &Auml;nderung:</span> <!--#config timefmt="%d.%m.%Y"--><!--#echo var="LAST_MODIFIED"--></p>
+           <div id="footerinfos">  <!-- begin: footerinfos -->
+              <!--#include virtual="/ssi/footerinfos.shtml" -->
+              <!--#include virtual="/ssi/zusatzinfo.shtml" -->
+           </div> <!-- end: footerinfos -->
+        </div></footer>   <!-- end: footer -->
+
+    </div>  <!-- end: seite -->
+  </div>  <!-- end: page_margins  -->
+  </body> <!-- end: body -->
+</html>

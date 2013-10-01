@@ -1,14 +1,14 @@
 <?php
 
 class Assets {
-	
-	/** 
-	* Optionen 
-	* 
+
+	/**
+	* Optionen
+	*
 	* @var array
-	* @access private 
-	*/ 
-	private $optionen = NULL; 
+	* @access private
+	*/
+	private $optionen = NULL;
 
 	/**
 	 * Constructor.
@@ -21,7 +21,7 @@ class Assets {
 	function __construct($optionen) {
 
 		$this->optionen = $optionen;
-		
+
 	}
 
 	public function holeDaten() {
@@ -55,13 +55,13 @@ class Assets {
 	private function holeBeschreibung() {
 		// Pruefe ob Zusatzdatei geladen werden soll
 		if(!$this->optionen["Personenanzeige_ZusatzdatenInDatei"]) return NULL;
-		
+
 		$filepath = $this->filepath().".txt";
 		if(!file_exists($filepath)) {
 			// Datei existiert nicht.
 			return NULL;
 		}
-		return file_get_contents($filepath);	
+		return file_get_contents($filepath);
 	}
 
 	private function holeDownloadLink() {
@@ -81,9 +81,9 @@ class Assets {
 
 		if(!array_key_exists("task", $optionen)) {
 			// Fehler in Konifguration
-			return -1; 
+			return -1;
 		}
-		
+
 		$path = "../../../";
 		$path = $path.$optionen["Datenverzeichnis"]."/daten/".$optionen["task"];
 		switch ($optionen["task"]) {
@@ -93,11 +93,11 @@ class Assets {
 			case 'lehrveranstaltungen-einzeln':		return $path."/".(int)$optionen["id"];
 			case 'lehrveranstaltungen-kalender':	return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'publikationen':					return $path."/".(int)$optionen["UnivISOrgNr"];
-				
+
 			default:								return -1;
 		}
 	}
 
 }
 
-?>>
+?>
