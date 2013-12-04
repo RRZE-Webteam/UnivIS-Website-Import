@@ -18,42 +18,44 @@
             <span class="honorific-suffix"><acronym title="{{atitle}}">{{ atitle }}</acronym></span>
             {{/atitle}}
         </h2>
-		
+
 		<address>
 		    <p>
 			    <span class="org">
-			        <span class="organization-name">Zentrale Einrichtungen</span><br />
+			        <!--<span class="organization-name">Zentrale Einrichtungen</span><br />-->
 			        {{#orgunits}}
-			        <span class="organization-unit">Abteilung {{orgunit}}</span><br />
+			        <span class="organization-unit">{{orgunit}}</span><br />
 			        {{/orgunits}}
 			    </span>
 		    </p>
 
 		    {{#locations}}
 				{{#location}}
-				<h3>Anschrift</h3>
-			    <ul class="kontakt">
-			    	 <span class="adr">
-				    	{{#street}}
-				        <span class="street-address">{{street}}</span><br>
-				        {{/street}}
-				        {{#ort}}
-				        <span class="locality">{{ort}}</span>
-				        {{/ort}}
-				    </span> 
-			    	{{#email}} 
-	                <li>E-Mail: <a class="email" href="mailto:{{email}}">{{email}}</a></li>
+				<h4 class="clear">Anschrift</h3>
+			    <div class="kontakt">
+			    	<p class="adr">
+				    		{{#street}}
+				        	<span class="street-address">{{street}}</span><br>
+				        	{{/street}}
+				        	{{#ort}}
+				        	<span class="locality">{{ort}}</span>
+				        	{{/ort}}
+				    </p>
+				   <ul>
+				   {{#email}}
+	                <li><span class="email">E-Mail: <a href="mailto:{{email}}" class="value">{{email}}</a></span></li>
 	                {{/email}}
 	                {{#tel}}
-	                <li>Telefon: <span class="tel">{{tel}}</span></li>
+	                <li><span class="tel">Telefon: <span class="value">{{tel}}</span></span></li>
 	                {{/tel}}
 	                {{#fax}}
-	                <li>Fax: <span class="fax">{{fax}}</span></li>
+	                <li><span class="fax">Fax: <span class="value">{{fax}}</span></span></li>
 	                {{/fax}}
 	                {{#office}}
 	                <li>Raum: <span class="office">{{office}}</span></li>
-	                {{/office}}               
+	                {{/office}}
 			    </ul>
+			    </div>
 			    {{/location}}
 			{{/locations}}
 	    </address>
@@ -64,33 +66,27 @@
 		{{#assets}}
 			{{#beschreibung}}
 				<h3>Information zur Person</h3>
-				<div>
-					{{beschreibung}}}
-				</div>
+				<div><pre>{{beschreibung}}</pre></div>
 			{{/beschreibung}}
 		{{/assets}}
-
+		<hr style="height:1px; border:none; color:#ccc; background-color:#ccc;">
 		<!-- Lehrveranstaltungen -->
 		{{#lehrveranstaltungen}}
 			<h3>Lehrveranstaltungen</h3>
 			<div>
-				<ul>
-					{{#lehrveranstaltungen}}
-						{{#veranstaltungen}}
-						<li>
-							<h3>{{title}}</h3>
+				{{#lehrveranstaltungen}}
+					{{#veranstaltungen}}
+						<h4>{{title}}</h4>
 							<ul>
 								{{#data}}
 									<li><a href="../../{{#optionen}}{{Lehrveranstaltung_Verzeichnis}}{{/optionen}}/{{id}}.shtml">{{name}}</a></li>
 								{{/data}}
 							</ul>
-						</li>
-						{{/veranstaltungen}}
-					{{/lehrveranstaltungen}}
-				</ul>
+					{{/veranstaltungen}}
+				{{/lehrveranstaltungen}}
 			</div>
 		{{/lehrveranstaltungen}}
-
+		<hr style="height:1px; border:none; color:#ccc; background-color:#ccc;">
 		{{#publikationen}}
 			<h3>Publikationen</h3>
 			<div>
@@ -105,17 +101,17 @@
 								{{#authors}}
 									{{#author}}
 										{{#pkey}}
-											
+
 											{{#full-profile}}
-												<a href="../../{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{firstname_small}}-{{lastname_small}}.shtml">{{lastname}}, {{firstname}}</a>; 
+												<a href="../../{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{firstname_small}}-{{lastname_small}}.shtml">{{lastname}}, {{firstname}}</a>;
 											{{/full-profile}}
 
 											{{^full-profile}}
-												{{name}}; 
+												{{name}};
 											{{/full-profile}}
-											
 
-										
+
+
 										{{/pkey}}
 									{{/author}}
 								{{/authors}}
@@ -132,7 +128,7 @@
 								{{/plocation}}
 								{{#address}}
 									{{address}},
-								{{/address}} 
+								{{/address}}
 
 								{{year}}
 							</span>
@@ -142,14 +138,31 @@
 					</ul>
 				{{/years}}
 			{{/publikationen}}
-		</div>
+		</p>
 		{{/publikationen}}
+			</div>
 	</div> <!-- end: div.accordion -->
 
-	<script> 
-		$( ".accordion" ).accordion({
-	      heightStyle: "content"
-	    });
+	<script>
+		$(document).ready(function(){
+
+	$(".accordion h3:first").addClass("active");
+	$(".accordion h3:not(:first)").addClass("off");
+	$(".accordion div:not(:first)").hide();
+
+
+	$(".accordion h3").click(function(){
+
+	  $(this).next("div").slideToggle("slow")
+	  .siblings("div:visible").slideUp("slow");
+	  $(this).addClass("active");
+	  $(this).removeClass("off");
+	  $(this).siblings("h3").removeClass("active");
+	  $(this).siblings("h3").addClass("off");
+
+	});
+
+});
     </script>
 </div>
 {{/person}}

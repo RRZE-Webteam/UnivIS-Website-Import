@@ -1,128 +1,300 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <title>Web-Baukasten der Friedrich-Alexander-Universit&auml;t: Kalender</title>
-    <!--#include virtual="/ssi/head.shtml" -->
+    <title>UnivIS</title>
+    <!--#include virtual="/ssi/head.shtml" --> 
   </head>
   <body>  <!-- begin: body -->
-  <div class="page_margins">  <!-- begin: page_margins -->
+  <div class="page_margins">  <!-- begin: page_margins --> 
     <div id="seite" class="page">  <!-- begin: seite -->
       <a name="seitenmarke" id="seitenmarke"></a>
-
-      <header><div id="kopf">  <!-- begin: kopf -->
+      
+      <header><div id="kopf">  <!-- begin: kopf --> 
 		  	<div id="logo">
-				<p><a href="/">Web-Baukasten der Friedrich-Alexander-Universit&auml;t</a></p>
-			</div>
-			<div id="titel">
-        		<h1>Kalender</h1>
-			</div>
-		 	<!--#include virtual="/ssi/kopf.shtml" -->
+				<p><a href="/">Web-Baukasten der Friedrich-Alexander-Universit&auml;t</a>
+                    </p>
+                </div>
+                <div id="titel">
+                    <h1>UnivIS</h1> 
+			</div>       
+		 	<!--#include virtual="/ssi/kopf.shtml" -->             
 	</div></header>  <!-- end: kopf -->
-      	<hr id="nachkopf" />
+      	<hr id="nachkopf" />  
 		<div id="main">  <!-- begin: main -->
-      		<div id="menu">  <!-- begin: menu -->
+      		<div id="menu">  <!-- begin: menu -->	  
 		        <div id="bereichsmenu">
-		         	<h2><a name="bereichsmenumarke" id="bereichsmenumarke">Navigation</a></h2>
-				  	<!--#include virtual="/cgi-bin/navigation/navigation.pl" -->
+		         	<h2><a name="bereichsmenumarke" id="bereichsmenumarke">Navigation</a></h2>      
+				  	<!--#include virtual="/cgi-bin/navigation/navigation.pl" -->		  
 		        </div>
-		        <!--#include virtual="/ssi/kurzinfo.shtml" -->
+		        <!--#include virtual="/ssi/kurzinfo.shtml" -->		
 		</div>  <!-- end: menu -->
 		<!--#include virtual="/ssi/sidebar.shtml" -->
-
+		     
 		<!-- CONTENT ****************************************************************** -->
-		<!-- ************************************************************************** -->
+		<!-- ************************************************************************** -->          
 	    	<div id="content">  <!-- begin: content -->
-	        <a name="contentmarke" id="contentmarke"></a>
-			<!--#include virtual="/ssi/inhaltsinfo.shtml" -->
+	        <a name="contentmarke" id="contentmarke"></a>                  		
+			<!--#include virtual="/ssi/inhaltsinfo.shtml" -->		
 
-			<!-- TEXT AB HIER -->
+			<!-- TEXT AB HIER --> 
 
-			<a href="/img/kalender/screenshot_kalender.png" target="_blank" class="nolinkicon"><img src="/img/kalender/screenshot_kalender.png" class="bildrechts" style="width: 300px !important;"></a>
-			<p>Mit dem Kalender-Plugin lassen sich Termine auf Ihrer Webseite in Kalenderform darstellen. Der Kalender ist interaktiv, d.h. die Besucher können selbst zwischen Tages-, Wochen-, Monats- und Listenansicht wechseln, sowie in der Zeit vor- und zurückblättern.</p>
+                                	<p>
+                                    Mithilfe dieser Anwendung können Daten einer Organisationseinheit der FAU aus dem <a class="univis" title="Externer Link: Zur Adresse  http://www.univis.uni-erlangen.de" href="http://www.univis.uni-erlangen.de">UnivIS</a>-System in die Webseite eingebunden werden:</p>
+									<ul>
+										<li>Mitarbeiterliste (alphabetisch oder nach Funktionen sortiert)</li>
+										<li>Profilseiten einzelner Mitarbeiter, auf Wunsch ergänzt um
+											<ul>
+												<li>eine persönliche Publikationsliste (aus UnivIS generiert)</li>
+												<li>eine Liste der eigenen Lehrveranstaltungen (aus UnivIS generiert)</li>
+												<li>ein Foto und zusätzlichen Text (lokal auf der Webseite hinzugefügt)</li>
+											</ul>
+										</li>
+										<li>Publikationsliste</li>
+										<li>Übersicht aller Lehrveranstaltungen inkl. Detailansicht</li>
+									</ul>
+										
+                                    
+									<h2>Download und Installation</h2>
+									<p>Die aktuelle Version des Webbaukastens stellt im Ordner <strong>/websource/vkdaten/tools/univis</strong> die benötigten Skripte zur Verfügung. Sollten ihre Homepage mit einer älteren Version des Webbaukastens laufen (vor Version 2.12.0718), laden Sie zunächst das ZIP-Paket "UnivIS API" aus dem <a href="/downloads/anwendungen.php">Download-Bereich</a> und herunter und kopieren Sie die Dateien in Ihren Webauftritt in das Verzeichnis <strong>/websource/vkdaten/tools/univis</strong>.</p>
+									<p>Außerdem benötigen Sie im Ordner <strong>/websource/vkdaten</strong> eine Datei namens <strong>univis.conf</strong>, in der Ihre Einstellungen für die Darstellung der UnivIS-Daten abgelegt werden. Diese Datei wird mit Voreinstellungen in der aktuellen Version des Web-Baukastens ausgeliefert. Falls diese Datei noch nicht vorhanden ist, kopieren Sie sich eine aktuelle Version von dieser Adresse: <a  href="www.demo.vorlagen.uni-erlangen.de/vkdaten/univis.conf"> www.demo.vorlagen.uni-erlangen.de/vkdaten/univis.conf</a>.</p>
+									
+									<h2>Einbindung in Webseiten</h2>
+									<p>Auf der Seite, auf der die <strong>Mitarbeiterliste</strong> erscheinen soll, fügen Sie folgende SSI-Anweisung in den HTML-Code ein:<br />
+										<code>&lt;!--#include virtual="/vkdaten/tools/univis/mitarbeiter-alle.php"--&gt;</code></p>
+									<p>Für die <strong>Mitarbeiter-Detailansicht</strong> (Profilseite) fügen Sie auf einer weiteren Seite folgende Anweisung ein: <br />
+										<code>&lt;!--#include virtual="/vkdaten/tools/univis/mitarbeiter-einzeln.php"--&gt;</code></p>
+									<p>Die Einbindung der <strong>Publikationsliste</strong> erfolgt über die Anweisung<br />
+										<code>&lt;!--#include virtual="/vkdaten/tools/univis/publikationen.php"--&gt;</code></p>
+									<p>Eine Übersicht aller <strong>Lehrveranstaltungen</strong> erhalten Sie über die Anweisung<br />
+										<code>&lt;!--#include virtual="/vkdaten/tools/univis/lehrveranstaltungen-alle.php"--&gt;</code></p>
+									<p>Für die eine <strong>Detailansicht der Lehrveranstaltungen</strong> fügen Sie auf einer weiteren Seite folgende Anweisung ein: <br />
+										<code>&lt;!--#include virtual="/vkdaten/tools/univis/lehrveranstaletungen-einzeln.php"--&gt;</code></p>
+										
+									
+									<h2>Konfiguration</h2>
+                                    
+									<p>Die Einstellung, welche Daten angezeigt werden sollen und wie sie angezeigt werden, legen Sie in der Datei <strong>univis.conf</strong> fest. Wenn Konfigurationseinstellungen über die Datei nicht angegeben oder geändert werden, wirken die Voreinstellungen.</p>
+									<p>Am einfachsten fügt man die Konfigurationseinstellungen im NavEditor unter Erweitert > Konfiguration > univis.conf ein. Alternativ können Sie die Datei auch direkt in einem HTML-Editor bearbeiten. Bitte beachten Sie, dass zwischen den Variablen Tabulatorsprünge als Trennzeichen verwendet werden.</p>
+									<p>Die wichtigste Angabe ist dabei Ihre <strong>UnivIS-Organisationsnummer (UnivISOrgNr)</strong>, damit das Skript die Daten Ihrer Einrichtung ausliefert. Dies ist zugleich die einzige verpflichtende Angabe. Um die UnivIS-Org-Nummer zu erhalten, verwenden die <a href="suche-einrichtungen.shtml">Einrichtungsssuche in den UnivIS-Daten</a> (diese liefert jedoch bei einigen Einrichtungen aufgrund von technischen Problemen manchmal keine Angabe) oder wenden Sie sich an den <a href="mailto:univis@uni-erlangen.de">UnivIS-Support</a>.</p>
+									<p>
+                                        Folgende Konstanten können zur Konfiguration in der Konfigurationsdatei verwendet werden:
+                                    </p>
 
-			<h2>Welche Daten werden angezeigt?</h2>
-			<p>Sie können einen oder mehrere Kalender aus verschiedenen Datenquellen in Ihre Webseite einbinden. Auch Serientermine und ganztägige Ereignisse werden dargestellt. Die Daten können dabei in folgenden Formaten vorliegen:</p>
-			<ul>
-				<li><strong>.ics-Dateien</strong><br />
-					Importieren Sie Kalenderdaten im ics-Format. Diese können entweder im eigenen Webauftritt hinterlegt werden oder von externen, öffentlich zugänglichen Web-Kalendern geladen werden (z.B. freigegebene Google- oder Outlook-Exchange-Kalender).</li>
-				<li><strong>UnivIs-Lehrveranstaltungen</strong><br />
-					Lassen Sie sich die Lehrveranstaltungen Ihrer Einrichtung in Kalenderform darstellen. Das aktuelle <a href="/anwendungen/univis/">UnivIs-Plugin</a> (Stand 17.06.2013 und neuer) stellt die im UnivIs eingetragenen Lehrveranstaltungen in einer php-Datei zur Verfügung, die vom Kalender-Plugin importiert werden kann (siehe Voreinstellung "Kalender2" im Abschnitt <a href="#konfiguration">"Konfiguration"</a>).</li>
-			</ul>
+                                    <table class="wechselfarbe">
+                                        <caption>
+                                            Übersicht der Konfigurationseinstellungen der UnivIS-Skripten
+                                        </caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Konstante</th>
+                                                <th>Voreinstellung</th>
+                                                <th>Beschreibung</th>
+                                            </tr>
+                                        </thead>
 
-			<h2>Download und Installation</h2>
-			<p>Die aktuelle Version des Webbaukastens stellt im Ordner <strong>/websource/vkdaten/tools/kalender</strong> die benötigten Skripte zur Verfügung. Sollte Ihre Homepage mit einer älteren Version des Webbaukastens laufen (vor Version 10/2013), laden Sie zunächst das ZIP-Paket "Kalender" aus dem <a href="/downloads/anwendungen.php">Download-Bereich</a> und herunter und kopieren Sie die Dateien in Ihren Webauftritt in das Verzeichnis <strong>/websource/vkdaten/tools/kalender</strong>.</p>
-			<p>Außerdem verwendet das Plugin die Javascript-Bibliothek <strong>jQuery</strong>. Falls nicht bereits vorhanden, steht jQuery auf <a href="http://www.jquery.com/" target="_blank">http://www.jquery.com/</a> zum kostenlosen Download zur Verfügung. Speichern Sie die Datei jquery-X.X.X.min.js im Ordner <strong>/websource/js/</strong> und binden Sie diese im Header-Bereich des HTML-Codes ein, indem Sie die folgende Zeile in die Datei <strong>/websource/ssi/head.shtml</strong> einfügen. "X.X.X" steht dabei für die entsprechende Versionsnummer.<br />
-				<code>&lt;script src="/js/jquery-X.X.X.min.js"&gt;&lt;/script&gt;</code></p>
-			<p>Ebenfalls in der Datei <strong>/websource/ssi/head.shtml</strong> fügen Sie die Verweise auf die benötigten CSS-Dateien ein:<br />
-				<code>&lt;link href="/vkdaten/tools/kalender/style.css" type="text/css" rel="stylesheet"&gt;<br />
-					&lt;link href="/vkdaten/tools/kalender/hint.css" type="text/css" rel="stylesheet"&gt;</code></p>
+                                        <tbody>
 
-			<h2>Einbindung auf der Seite</h2>
-			<p>Auf der Seite, auf der der Kalender erscheinen soll, fügen Sie folgende SSI-Anweisung in den HTML-Code ein:<br />
-				<code>&lt;!--#include virtual="/vkdaten/tools/kalender/kalender.php"--&gt;</code></p>
-			<p>Haben Sie in den Konfigurationseinstellungen (s.u.) mehrere Kalender angelegt, können Sie angeben, welcher Kalender angezeigt werden soll. Erweitern Sie die SSI-Anweisung dazu folgendermaßen (Bsp: Kalender2 anzeigen):<br />
-				<code>&lt;!--#include virtual="/vkdaten/tools/kalender/kalender.php?Zeige_Kalender=2"--&gt;</code></p>
+                                            <tr>
+                                                <th class="reihe">UnivISOrgNr</th>
+                                                <td>0</td>
+                                                <td>
+                                                    Zentrale UnivIS-Orgnummer. Diese wird verwendet bei Abfragen, die eine vorgegebene Einrichtung betreffen
+                                                </td>
+                                            </tr>
 
-			<a name="konfiguration"></a>
-			<h2>Konfiguration</h2>
-			<p>Folgende Optionen stehen zur Verfügung:</p>
-			<table class="wechselfarbe">
-				<caption>Übersicht der Konfigurationseinstellungen der Kalender-Skripten</caption>
-				<thead>
-					<tr>
-						<th>Konstante</th>
-						<th>Voreinstellung</th>
-						<th>Beschreibung</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th class="reihe">Tagesanfang</th>
-						<td>7:00</td>
-						<td>Ab welcher Uhrzeit soll der Kalender in der Tagesansicht angezeigt werden?</td>
-					</tr>
-					<tr>
-						<th class="reihe">Tagesende</th>
-						<td>20:00</td>
-						<td>Bis zu welcher Uhrzeit soll der Kalender in der Tagesansicht angezeigt werden?</td>
-					</tr>
-					<tr>
-						<th class="reihe">Blau<br/>Rot<br />Gruen<br />Orange<br />Tuerkis</th>
-						<td>Seminar<br />Praktikum<br />Sitzung<br />Übung<br />Sonstige</td>
-						<td>Farbliche Markierungen der Terminkategorien: Kommt im Titel des Termins das betreffende Wort vor (z.B. "Übung"), wird der Termin in der entsprechenden Farbe markiert.</td>
-					</tr>
-					<tr>
-						<th class="reihe">Kalender1</th>
-						<td>http://groupware.fau.de/owa/calendar/RRZE_RS_Events@exch.fau.de/Kalender/calendar.ics</td>
-						<td rowspan="2">URLs der eingebundenen Kalender, beliebig erweiterbar (Kalender3...). <strong>Es mus immer mindestens eine Kalender-Adresse angegeben sein.</strong></td>
-					</tr>
-					<tr>
-						<th class="reihe">Kalender2</th>
-						<td>/vkdaten/tools/univis/lehrveranstaltungen-kalender.php</td>
-					</tr>
-				</tbody>
-			</table>
-			<h3>Wochenende anzeigen/verstecken</h3>
-			<p>Standardmäßig werden die Wochenenden im Kalender angezeigt. Möchten Sie jedoch nur die Werktage angezeigt bekommen, fügen Sie folgende Zeile in die Datei <strong>/websource/ssi/head.shtml</strong> ein:<br />
-			<code>&lt;link href="/vkdaten/tools/kalender/hide_weekend.css" type="text/css" rel="stylesheet"&gt;</code></p>
+                                            <tr>
+                                                <th class="reihe">SeitenCache</th>
+                                                <td>3600</td>
+                                                <td>
+                                                    Zeit in Sekunden die angibt, wie lange eine einmal erstellte Personenseite zwischengespeichert und nicht neu erstellt wird.<br />
+                                                    Für die laufende Webseite sollte dieser Wert auf z.B. 3600 gesetzt werden.
+                                                </td>
+                                            </tr>
 
+                                            <tr>
+                                                <th class="reihe">Datenverzeichnis</th>
+                                                <td>wir-ueber-uns</td>
+                                                <td>
+                                                    Gibt den Hauptordner an, in dem sich die Dateien f&uuml;r die Personen-, Veranstaltungs- und Publikationsanzeige befindet
+                                                </td>
+                                            </tr>
 
+                                            <tr>
+                                                <th class="reihe">Personenanzeige_Verzeichnis</th>
+                                                <td>mitarbeiter/index.shtml</td>
+                                                <td>
+                                                    Datei (mit Pfad), in der die einzelne Personenseite angezeigt werden soll
+                                                </td>
+                                            </tr>
 
+                                            <tr>
+                                                <th class="reihe">Personenanzeige_Bildsuche</th>
+                                                <td>1</td>
+                                                <td>
+													1 = Im Datenverzeichnis wird nach einem Personenbild gesucht. Dieses muss die Form "vorname-nachname.jpg" oder "vorname-nachname.gif" haben und sollte eine festgelegte Größen haben (Bitte lassen Sie bei Bilder niemals den Browser skalieren, sondern tun dies mit einem geeigneten Grafikprogramm selbst!).<br />
+													0 = keine Suche nach Personenbild
+                                                    
+                                                </td>
+                                            </tr>
 
-	   		 <!-- AB HIER KEIN TEXT MEHR -->
+                                            <tr>
+                                                <th class="reihe">Personenanzeige_Lehrveranstaltungen</th>
+                                                <td>1</td>
+                                                <td>
+													1 = Die Lehrveranstaltungen der Person werden auf der Personenseite angezeigt, wenn vorhanden.<br /> 
+													Achtung: Dies fffunktioniert nur dann, wenn die Person auch als "Lehrperson" (ja) im UnivIS eingetragen ist.<br /> 
+													0 = keine Anzeige von Lehrveranstaltungen auf der Personenseite
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="reihe">Personenanzeige_Publikationen</th>
+                                                <td>0</td>
+                                                <td>
+													1 = Die Publikationen der Person werden auf der Personenseite angezeigt, wenn vorhanden.<br />
+													Achtung: Die Suche verlangsamt den Aufruf merkbar.<br />
+													0 = keine Anzeige von Publikationen auf der Personenseite                                                    
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="reihe">Personenanzeige_ZusatzdatenInDatei</th>
+                                                <td>1</td>
+                                                <td>
+													1 = Im Datenverzeichnis wird nach Dateien der Form "vorname-nachname.txt" gesucht. Ist eine solche Datei vorhanden, wird dessen Inhalt gemäß dem Template-Angaben unverändert ausgegeben.<br />
+													0 = keine Anzeige von Zusatzdaten                                                    
+                                               </td>
+                                           </tr>
+                                           
+                                            <tr>
+                                                <th class="reihe">Lehrveranstaltung_Verzeichnis</th>
+                                                <td>lehrveranstaltungen/index.shtml</td>
+                                                <td>
+                                                    Datei (mit Pfad), in der die Detailansicht der Lehrveranstaltungen angezeigt werden soll
+                                                </td>
+                                            </tr>
+                                        <tr>
+                                            <th class="reihe">START_SOMMERSEMESTER</th>
+                                            <td>1.4.</td>
+                                            <td>
+                                                Wird verwendet für die automatische Erkennung welches Semester aktuell ist.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">START_WINTERSEMESTER</th>
+                                            <td>1.10.</td>
+                                            <td>
+                                                Wird verwendet für die automatische Erkennung welches Semester aktuell ist.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">Sortiere_Jobs</th>
+                                            <td>1</td>
+                                            <td>
+												1 = Die Mitarbeiterliste wird nach Funktionen (z.B. Professoren, Doktoranden, Sekretariat...) sortiert.<br />
+												0 = alphabetische Liste der Mitarbeiter                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">Ignoriere_Jobs</th>
+                                            <td>Sicherheitsbeauftragter|IT-Sicherheits-Beauftragter|Webmaster|Postmaster|IT-Betreuer|UnivIS-Beauftragte</td>
+                                            <td>
+												Liste von Funktionen, die in der Mitarbeiterliste nicht aufgeführt werden sollen. Einzelne Einträge werden durch "|" getrennt.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">Zeige_Sprungmarken</th>
+                                            <td>1</td>
+                                            <td>
+												1 = Sprungmarken (= Links zu einzelnen Unterkategorien) werden über der Mitarbeiterliste angezeigt<br />
+												0 = keine Anzeige von Sprungmarken
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
+                                <p>
+                                    Es werden programmintern weitere Konstanten definiert. Diese sollten jedoch nicht verändert werden
+                                    und werden deswegen hier nicht aufgeführt.
+                                </p>
+
+                                <h2>Templates</h2>
+                                <p>
+                                    Die Ausgabe der Daten erfolgt mit Hilfe vordefinierter Templates. Dabei handet es sich um HTML-Dateien, in denen die
+                                    Gestaltung, Position und Angabe der jeweiligen Daten bestimmt ist.<br />
+									Diese Dateien finden sich im Verzeichnis <strong>/websource/vkdaten/tools/univis/templates/</strong>unterhalb des Stammverzeichnisses jedes Webauftritts.
+                                </p>
+
+                                <h3>Template-Dateien</h3>
+
+                                <table>
+                                    <caption>Übersicht aller Template-Dateien und deren Einsatz</caption>
+                                    <tbody>
+                                        <tr>
+                                            <th class="reihe">mitarbeiter-alle.shtml</th>
+                                            <td>Ausgabe des Index der Personen einer Einrichtung</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">mitarbeiter-einzeln.shtml</th>
+                                            <td>
+                                                Detailansicht ("Profilseite") einer Person 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">lehrveranstaltungen-alle.shtml</th>
+                                            <td>
+                                                Darstellung der Liste der angebotenen Lehrveranstaltungen
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">lehrveranstaltungen-einzeln.shtml</th>
+                                            <td>
+                                                Detailansicht einer einzelnen Lehrveranstaltung
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="reihe">publikationen.shtml</th>
+                                            <td>Darstellung der Publikationsliste einer Einrichtung</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!--<h2>Anwendungsbeispiele</h2>
+
+                                <h3>
+                                    Mitarbeiterliste
+                                </h3>
+                                <p>
+                                    Die Mitarbeiterliste zeigt alle Mitarbeiter einer Organisation an. (Bzw.
+                                    einer Oberorganisation mit dessen untereinheiten, beginnend mit einer Id).
+                                    <br>
+                                    Für jeden Mitarbeiter wird eine eigene "Visitenkarte" erstellt, die
+                                    auch bookmarkbar ist. Diese Visitenkarte besteht aus allen Daten, die
+                                    im UnivIS zu der Person eingetragen sind und zusätzlich optional aus
+                                    lokal abgespeicherten Daten.
+                                </p>
+
+                                <p>
+                                    Der Einbau der  Mitarbeiterliste in eine HTML-Seite erfolgte durch die Angabe der SSI-Anweisung:
+                                    <code>&lt;!--#include virtual="/vkdaten/tools/univis/mitarbeiter-alle.php"--&gt;</code>
+                                </p>-->
+	
+	  
+      
+	   		 <!-- AB HIER KEIN TEXT MEHR --> 	
+             
       		 <hr id="vorfooter" />
-	      	</div>  <!-- end: content -->
-     	</div>  <!-- end: main -->
+	      	</div>  <!-- end: content -->                       
+     	</div>  <!-- end: main -->                   
         <footer><div id="footer">  <!-- begin: footer -->
            <h2><a name="footermarke" id="footermarke">Informationen zur Seite</a></h2>
-            <p class="last_modified"><span>Letzte &Auml;nderung:</span> <!--#config timefmt="%d.%m.%Y"--><!--#echo var="LAST_MODIFIED"--></p>
+            <p class="last_modified"><span>Letzte &Auml;nderung:</span> <!--#config timefmt="%d.%m.%Y"--><!--#echo var="LAST_MODIFIED"--></p>			
            <div id="footerinfos">  <!-- begin: footerinfos -->
               <!--#include virtual="/ssi/footerinfos.shtml" -->
-              <!--#include virtual="/ssi/zusatzinfo.shtml" -->
-           </div> <!-- end: footerinfos -->
+              <!--#include virtual="/ssi/zusatzinfo.shtml" -->		
+           </div> <!-- end: footerinfos -->	
        </div></footer>   <!-- end: footer -->
-
+        
     </div>  <!-- end: seite -->
   </div>  <!-- end: page_margins  -->
   </body> <!-- end: body -->

@@ -50,7 +50,7 @@
 
 	{{#ects_infos}}
 	<h4>ECTS-Informationen</h4>
-		
+
 	{{#ects_name}}
 		<h5>Title:</h5>
 		<p>{{ects_name}}</p>
@@ -88,6 +88,6 @@
 
 {{#assets}}
 	{{#download_link}}
-		<a href="{{download_link}}"> Download </a>
+	<p><a href="{{download_link}}"> Download </a></p>
 	{{/download_link}}
 {{/assets}}

@@ -4,30 +4,30 @@ require("univis_dicts.php");
 
 class UNIVIS {
 
-	/** 
-	* Optionen 
-	* 
+	/**
+	* Optionen
+	*
 	* @var array
-	* @access private 
-	*/ 
-	private $optionen = NULL; 
+	* @access private
+	*/
+	private $optionen = NULL;
 
 
-	/** 
-	* Enthaelt die geparsten XML Daten in Form von Arrays 
-	* 
+	/**
+	* Enthaelt die geparsten XML Daten in Form von Arrays
+	*
 	* @var array
-	* @access private 
-	*/ 
-	private $daten = NULL; 
+	* @access private
+	*/
+	private $daten = NULL;
 
 
-	/** 
+	/**
 	* UNIVIS Url
-	* 
+	*
 	* @var string
-	* @access private 
-	*/ 
+	* @access private
+	*/
 	private $univis_url = "http://univis.uni-erlangen.de/prg";
 
 	/**
@@ -41,7 +41,7 @@ class UNIVIS {
 	function __construct($optionen) {
 
 		$this->optionen = $optionen;
-		
+
 	}
 
 	public function ladeDaten() {
@@ -70,7 +70,7 @@ class UNIVIS {
 
 				case "lehrveranstaltungen-kalender":
 					$this->daten = $this->_ladeLehrveranstaltungenKalender();
-					break;					
+					break;
 
 				default:
 					echo "Fehler: Unbekannter Befehl\n";
@@ -84,7 +84,7 @@ class UNIVIS {
 	private function _ladeMitarbeiterAlle() {
 		// Hole Daten von Univis
 		$url = $this->univis_url."?search=departments&number=".$this->optionen["UnivISOrgNr"]."&show=xml";
-		
+
 		if(!fopen($url, "r")) {
 			// Univis Server ist nicht erreichbar
 			return -1;
@@ -102,26 +102,26 @@ class UNIVIS {
 			if($this->optionen["Ignoriere_Jobs"]) {
 				$xjobs = explode("|", $this->optionen["Ignoriere_Jobs"]);
 			}
-			
+
 			$personen_jobs = array();
-			for ($i=0; $i < count($jobs); $i++) { 
-				
-			
+			for ($i=0; $i < count($jobs); $i++) {
+
+
 				if(in_array($jobs[$i]["description"], $xjobs)) {
 					continue;
 				}
 
-				for ($j=0; $j < count($jobs[$i]["pers"][0]["per"]); $j++) { 
+				for ($j=0; $j < count($jobs[$i]["pers"][0]["per"]); $j++) {
 					if($personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]]) {
 						$personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]] .= "|".$jobs[$i]["description"];
 					}else{
 						$personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]] = $jobs[$i]["description"];
 					}
-					
+
 				}
 			}
 
-			for ($k=0; $k < count($daten["Person"]); $k++) { 
+			for ($k=0; $k < count($daten["Person"]); $k++) {
 				$key = $daten["Person"][$k]["@attributes"]["key"];
 
 				if(isset($personen_jobs[$key])) {
@@ -147,10 +147,10 @@ class UNIVIS {
 		foreach ($noetige_felder as $feld) {
 			if(!array_key_exists($feld, $this->optionen) || $this->optionen[$feld] == "") {
 				// Fehler: Bitte geben Sie Vor- und Nachname der gesuchten Person an
-				echo "Bitte geben Sie Vor- und Nachname der gesuchten Person an.";
+				echo "<div class=\"hinweis_wichtig\">Bitte geben Sie Vor- und Nachname der gesuchten Person an.</div>";
 				return -1;
 			}
-			
+
 			if(strrpos($this->optionen[$feld], "&") !== false) {
 				echo "Ung&uuml;ltige Eingabe.";
 				return -1;
@@ -162,7 +162,7 @@ class UNIVIS {
 
 		$url = $this->umlaute_ersetzen($url);
 
-		
+
 
 		if(!fopen($url, "r")) {
 			// Univis Server ist nicht erreichbar
@@ -196,7 +196,7 @@ class UNIVIS {
 	private function _ladePublikationen($authorid = NULL) {
 		// Hole Daten von Univis
 		$url = $this->univis_url."?search=publications&show=xml&department=" . $this->optionen["UnivISOrgNr"];
-		
+
 		if($authorid) {
 			// Suche nur Publikationen von einen bestimmten Autoren
 			$url .= "&authorid=".$authorid;
@@ -223,7 +223,7 @@ class UNIVIS {
 
 		//Personen informationen einfügen
 		$this->univis_refs_ersetzen($refs, &$publications);
-		
+
 		return $publications;
 
 	}
@@ -249,7 +249,7 @@ class UNIVIS {
 
 		$univis_refs = $this->_get_univis_ref($array);
 
-		
+
 		//Personen informationen einfügen
 		$this->univis_refs_ersetzen($univis_refs, &$veranstaltungen);
 
@@ -264,8 +264,14 @@ class UNIVIS {
 	private function _ladeLehrveranstaltungenEinzeln() {
 		// Hole Daten von Univis
 
+		if($this->optionen["id"] == "") {
+				// Fehler: Bitte geben Sie eine Lehrveranstaltung an
+				echo "<div class=\"hinweis_wichtig\">Bitte geben Sie eine Lehrveranstaltung an.</div>";
+				return -1;
+			}
+
 		$url = "http://univis.uni-erlangen.de/prg?search=lectures&show=xml&sem=".$this->aktuellesSemester();
-		
+
 		if($this->optionen["id"]) {
 			$url .= "&id=".$this->toNumber($this->optionen["id"]);
 		}
@@ -317,7 +323,7 @@ class UNIVIS {
 			$a[$sxi->key()][] = $attributes["@attributes"];
 	      }
 	    }
-	    
+
 		if($sxi->attributes()) {
 			$attributes = (array) $sxi->attributes();
 			$a["@attributes"] = $attributes["@attributes"];
@@ -329,7 +335,7 @@ class UNIVIS {
 
 	private function umlaute_ersetzen($text){
 		$such_array  = array ('ä', 'ö', 'ü', 'ß');
-		$ersetzen_array = array ('ae', 'oe', 'ue', 'ss');	
+		$ersetzen_array = array ('ae', 'oe', 'ue', 'ss');
 		$neuer_text  = str_replace($such_array, $ersetzen_array, $text);
 		return $neuer_text;
 	}
@@ -356,7 +362,7 @@ class UNIVIS {
 
 		$dict = array("Room", "Person", "Title", "Lecture");
 		foreach ($dict as $type) {
-			$univis_refs = array_merge($univis_refs, $arr[$type]);	
+			$univis_refs = array_merge($univis_refs, $arr[$type]);
 		}
 
 		$refs = array();
