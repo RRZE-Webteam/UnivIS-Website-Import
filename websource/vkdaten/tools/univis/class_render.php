@@ -197,15 +197,15 @@ class Render {
 
 						if(array_key_exists("id", $author[$a]["pkey"][0])) {
 							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"] = $year["data"][$k]["authors"][$m]["author"][$a]["pkey"];
-							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["firstname_small"] = strtolower($year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["firstname"]);
-							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["lastname_small"] = strtolower($year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["lastname"]);
+							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["firstname_small"] = strtolower($this->umlaute_ersetzen($year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["firstname"]));
+							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["lastname_small"] = strtolower($this->umlaute_ersetzen($year["data"][$k]["authors"][$m]["author"][$a]["pkey"]["full-profile"][0]["lastname"]));
 						}else{
 							$name = $year["data"][$k]["authors"][$m]["author"][$a]["pkey"][0]["lastname"];
 							$year["data"][$k]["authors"][$m]["author"][$a]["pkey"][0]["name"] = $name;
 						}
 						
 					}
-				}
+				}									
 				
 			}
 			array_push($publications_sorted, $year);
@@ -312,8 +312,8 @@ class Render {
 		for ($i = 0; $i<count($veranstaltung["dozs"]); $i++) {
 			for ($k = 0; $k < count($veranstaltung["dozs"][$i]["doz"]); $k++) {
 
-				$veranstaltung["dozs"][$i]["doz"][$k]["firstname_small"] = strtolower($veranstaltung["dozs"][$i]["doz"][$k]["firstname"]);
-				$veranstaltung["dozs"][$i]["doz"][$k]["lastname_small"] = strtolower($veranstaltung["dozs"][$i]["doz"][$k]["lastname"]);
+				$veranstaltung["dozs"][$i]["doz"][$k]["firstname_small"] = strtolower($this->umlaute_ersetzen($veranstaltung["dozs"][$i]["doz"][$k]["firstname"]));
+				$veranstaltung["dozs"][$i]["doz"][$k]["lastname_small"] = strtolower($this->umlaute_ersetzen($veranstaltung["dozs"][$i]["doz"][$k]["lastname"]));
 			}
 		}
 
