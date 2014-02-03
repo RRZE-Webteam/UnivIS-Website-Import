@@ -85,7 +85,7 @@ class Assets {
 		}
 
 		$path = "../../../";
-		$path = $path.$optionen["Datenverzeichnis"]."/daten/".$optionen["task"];
+		$path = $path.$optionen["Datenverzeichnis"]."/".$optionen["task"];
 		switch ($optionen["task"]) {
 			case 'mitarbeiter-alle':				return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'mitarbeiter-einzeln':				return $path."/".strtolower($optionen["firstname"]."-".$optionen["lastname"]);
@@ -93,10 +93,11 @@ class Assets {
 			case 'lehrveranstaltungen-einzeln':		return $path."/".(int)$optionen["id"];
 			case 'lehrveranstaltungen-kalender':	return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'publikationen':					return $path."/".(int)$optionen["UnivISOrgNr"];
-				
+
 			default:								return -1;
 		}
 	}
 
 }
+
 ?>

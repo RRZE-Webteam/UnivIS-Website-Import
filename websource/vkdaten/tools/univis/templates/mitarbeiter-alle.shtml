@@ -15,7 +15,7 @@
 		{{#personen}}
 		    <li class="vcard">
 		        <span class="fn n">
-			        <a class="url" href="/{{#optionen}}{{Datenverzeichnis}}{{/optionen}}/{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{nameurl}}.shtml">
+			        <a class="url" href="/{{#optionen}}{{Personenanzeige_Verzeichnis}}{{/optionen}}/{{nameurl}}.shtml">
 			            
 			            {{#title}}
 			            <span class="honorific-prefix"><acronym title="{{ title-long }}">{{title}}</acronym></span>
