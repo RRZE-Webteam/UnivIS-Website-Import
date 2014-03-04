@@ -149,9 +149,9 @@ class Render {
 	private function _bearbeiteMitarbeiterEinzeln($person) {
 		if(!empty($person)) {
 			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
-			$name = $person["firstname"]."-".$person["lastname"];
+			$name = $person["firstname"]."_".$person["lastname"];
 			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
-			$person["nameurl"] = str_replace(" ", "-", $person["nameurl"]);
+			$person["nameurl"] = str_replace(" ", "%20", $person["nameurl"]);
 
 			// Lade Publikationen
 			$publikationen = $this->_bearbeitePublikationen($person["publikationen"]);
@@ -172,6 +172,7 @@ class Render {
 
 	private function _bearbeitePublikationen($publications) {
 		if(!$publications) return NULL;
+		$this->_rename_key("hstype", $publications, Dicts::$hstypes);
 
 		// Nach Jahren gruppieren
 		$publications = $this->_group_by("year", $publications);

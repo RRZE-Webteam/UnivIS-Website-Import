@@ -101,8 +101,26 @@
             "tagband" => "Tagungsband (nicht im Verlag erschienen)",
             "schutzr" => "Schutzrecht"
         );
-
-
+		
+		public static $hstypes = array(
+			"diss" => "Dissertation",
+            "dipl" => "Diplomarbeit",
+            "mag" => "Magisterarbeit",
+            "stud" => "Studienarbeit",
+            "habil" => "Habilitationsschrift",
+            "masth" => "Masterarbeit",
+            "bacth" => "Bachelorarbeit",
+            "intber" => "Interner Bericht",
+            "diskus" => "Diskussionspapier",
+            "discus" => "Discussion paper",
+            "forber" => "Forschungsbericht",
+            "absber" => "Abschlussbericht",
+            "patschri" => "Patentschrift",
+            "offenleg" => "Offenlegungsschrift",
+            "patanmel" => "Patentanmeldung",
+            "gebrmust" => "Gebrauchsmuster"
+		);
+		
 	}
 
 ?>
