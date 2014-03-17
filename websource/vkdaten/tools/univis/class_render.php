@@ -36,6 +36,9 @@ class Render {
 				case "mitarbeiter-alle":
 					return $this->_bearbeiteMitarbeiterAlle($daten);
 
+				case "mitarbeiter-orga":
+					return $this->_bearbeiteMitarbeiterOrga($daten);
+
 				case "mitarbeiter-einzeln":
 					return $this->_bearbeiteMitarbeiterEinzeln($daten);
 
@@ -145,6 +148,87 @@ class Render {
 
 		return array("gruppen" => $gruppen, "optionen" => $this->optionen);
 	}
+
+	private function _bearbeiteMitarbeiterOrga($personen) {
+		/////////	Daten Formatieren
+		////////////////
+		//	Array: ["ORGNAME"] => Array: PERSON-ARRAY
+		////////////////
+
+
+		$such_kategorie = "orgname";
+		$gruppen = array();
+		$gruppen_dict = array();
+
+		foreach ($personen as $person) {
+			if(empty($person["firstname"]))
+				continue;
+
+			if(empty($person[$such_kategorie])) {
+				continue;
+			}
+
+			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
+			$name = $person["firstname"]."-".$person["lastname"];
+			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
+			$person["nameurl"] = str_replace(" ", "-", $person["nameurl"]);
+
+			$gruppen_namen = explode("|", $person[$such_kategorie]);
+
+			foreach ($gruppen_namen as $gruppen_name) {
+				if($gruppen_dict[$gruppen_name]==NULL) {
+					$gruppen_dict[$gruppen_name] = array();
+				}
+
+				array_push($gruppen_dict[$gruppen_name], $person);
+			}
+		}
+
+
+		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
+			$gruppen_obj = array(
+				"name" => $gruppen_name,
+				"personen" => $gruppen_personen
+			);
+
+			array_push($gruppen, $gruppen_obj);
+		}
+
+		// Soll nur eine bestimmte Org-Einheit angezeigt werden?
+		if($this->optionen["OrgUnit"] != "") {
+			$gruppe = array(
+				"name" => $this->optionen["OrgUnit"],
+				"personen" => $gruppen_dict[$this->optionen["OrgUnit"]]
+			);
+			$gruppen = array($gruppe);
+		}
+
+		// Sollen die Personen alphabetisch sortiert werden?
+		if($this->optionen["Sortiere_Alphabet"] != 0) {
+			$personen = array();
+
+			foreach ($gruppen as $gruppe) {
+				foreach ($gruppe["personen"] as $person) {
+					$personen[] = $person;
+				}
+			}
+
+			$personen = $this->record_sort($personen, "lastname");
+
+			$gruppe = array("name" => "Alle Mitarbeiter", "personen" => $personen);
+			$gruppen = array($gruppe);
+
+		}
+
+		// Zeige keine Sprungmarken falls nur eine OrgUnit vorhanden ist.
+		if(count($gruppen) <= 1) {
+			$this->optionen["Zeige_Sprungmarken"] = 0;
+		}
+
+		return array("gruppen" => $gruppen, "optionen" => $this->optionen);
+	}
+
+
 
 	private function _bearbeiteMitarbeiterEinzeln($person) {
 		if(!empty($person)) {

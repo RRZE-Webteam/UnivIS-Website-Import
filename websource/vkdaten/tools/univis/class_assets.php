@@ -88,6 +88,7 @@ class Assets {
 		$path = $path.$optionen["Datenverzeichnis"]."/".$optionen["task"];
 		switch ($optionen["task"]) {
 			case 'mitarbeiter-alle':				return $path."/".(int)$optionen["UnivISOrgNr"];
+			case 'mitarbeiter-orga':				return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'mitarbeiter-einzeln':				return $path."/".strtolower($optionen["firstname"]."-".$optionen["lastname"]);
 			case 'lehrveranstaltungen-alle':		return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'lehrveranstaltungen-einzeln':		return $path."/".(int)$optionen["id"];

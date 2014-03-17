@@ -52,6 +52,10 @@ class UNIVIS {
 					$this->daten = $this->_ladeMitarbeiterAlle();
 					break;
 
+				case "mitarbeiter-orga":
+					$this->daten = $this->_ladeMitarbeiterOrga();
+					break;
+
 				case "mitarbeiter-einzeln":
 					$this->daten = $this->_ladeMitarbeiterEinzeln();
 					break;
@@ -139,6 +143,22 @@ class UNIVIS {
 	// nach ueberschrift filtern
 	// wenn nur eine org unit da is dann sprungmarke weglassen
 	// nach alphabet sortieren
+
+	private function _ladeMitarbeiterOrga() {
+		// Hole Daten von Univis
+		$url = $this->univis_url."?search=persons&department=".$this->optionen["UnivISOrgNr"]."&show=xml";
+
+		if(!fopen($url, "r")) {
+			// Univis Server ist nicht erreichbar
+			return -1;
+		}
+
+		// XML Daten Parsen
+		$daten = $this->xml2array($url);
+
+		return $daten["Person"];
+	}
+
 
 	private function _ladeMitarbeiterEinzeln() {
 
