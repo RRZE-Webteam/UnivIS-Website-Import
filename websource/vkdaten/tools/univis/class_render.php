@@ -63,7 +63,7 @@ class Render {
 	}
 
 
-	private function _bearbeiteMitarbeiterAlle($personen) {
+	private function _bearbeiteMitarbeiterAlle($daten) {
 		/////////	Daten Formatieren
 		////////////////
 		//	Array: ["ORGNAME"] => Array: PERSON-ARRAY
@@ -71,10 +71,14 @@ class Render {
 
 
 		// Standard Aufteilung: orgname
+		$personen = $daten["Person"];
+		$jobnamen = $daten['jobs'];
 		$such_kategorie = "orgname";
 		if($this->optionen["Sortiere_Jobs"]) {
 			// Bei Lehrstuehlen ist es aber sinnvoller nach Jobs bzw. Rang zu gliedern.
 			$such_kategorie = "rang";
+
+			$jobs = $daten['Org'][0]['jobs'][0]['job'];
 		}
 
 		$gruppen = array();
@@ -106,8 +110,9 @@ class Render {
 			}
 		}
 
-
-		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
+#		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
+		foreach ($jobnamen as $gruppen_name) {
+			$gruppen_personen = $gruppen_dict[$gruppen_name];
 			$gruppen_obj = array(
 				"name" => $gruppen_name,
 				"personen" => $gruppen_personen
@@ -233,9 +238,9 @@ class Render {
 	private function _bearbeiteMitarbeiterEinzeln($person) {
 		if(!empty($person)) {
 			$person["title-long"] = $this->_str_replace_dict(Dicts::$acronyms, $person["title"]);
-			$name = $person["firstname"]."_".$person["lastname"];
+			$name = $person["firstname"]."-".$person["lastname"];
 			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
-			$person["nameurl"] = str_replace(" ", "%20", $person["nameurl"]);
+			$person["nameurl"] = str_replace(" ", "-", $person["nameurl"]);
 
 			// Lade Publikationen
 			$publikationen = $this->_bearbeitePublikationen($person["publikationen"]);
@@ -256,7 +261,6 @@ class Render {
 
 	private function _bearbeitePublikationen($publications) {
 		if(!$publications) return NULL;
-		$this->_rename_key("hstype", $publications, Dicts::$hstypes);
 
 		// Nach Jahren gruppieren
 		$publications = $this->_group_by("year", $publications);

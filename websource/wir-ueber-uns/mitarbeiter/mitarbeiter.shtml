@@ -2,7 +2,7 @@
 <html lang="de">
   <head>
 	  <!-- NAVEDITOR_TEMPL_TYPE=VORL -->
-    <title>: Wir &uuml;ber uns</title>
+    <title>: Mitarbeiter</title>
     <!--#include virtual="/ssi/head.shtml" --> 
   </head>
   <body>  <!-- begin: body -->
@@ -12,7 +12,7 @@
       
       <header><div id="kopf">  <!-- begin: kopf -->
 		  	<div id="logo"><p><a href="/">Lehrstuhl f&uuml;r B&uuml;rgerliches Recht, Deutsche und Europ&auml;ische Rechtsgeschichte</a></p></div>
-			<div id="titel"><h1>Wir &uuml;ber uns</h1></div>       
+			<div id="titel"><h1>Mitarbeiter</h1></div>       
 		 	<!--#include virtual="/ssi/kopf.shtml" -->             
 	</div></header>  <!-- end: kopf -->
       	<hr id="nachkopf" />  
@@ -33,7 +33,7 @@
 			<!--#include virtual="/ssi/inhaltsinfo.shtml" -->		
 
 			<!-- TEXT AB HIER -->
-<br /><!--#include virtual="/cgi-bin/navigation/inhalt.pl?url=/wir-ueber-uns/index.shtml&nodfn=1&nostart=1"-->
+<br /><!--#include virtual="/vkdaten/tools/univis/mitarbeiter-einzeln.php"-->
 <!-- AB HIER KEIN TEXT MEHR --> 	
              
       		 <hr id="vorfooter" />

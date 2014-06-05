@@ -5,13 +5,13 @@
     <title>$PLATZHALTER-NAME-WEBAUFTRITT : Publikationen</title>
     <!--#include virtual="/ssi/head.shtml" -->
   </head>
-  <body id="start">  <!-- begin: body -->
+  <body>  <!-- begin: body -->
   <div class="page_margins">  <!-- begin: page_margins -->
     <div id="seite" class="page">  <!-- begin: seite -->
       <a name="seitenmarke" id="seitenmarke"></a>
 
       <header><div id="kopf">  <!-- begin: kopf -->
-		  	<div id="logo"><a href="/"></a><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</span></p></div>
+		  	<div id="logo"><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</a></p></div>
 			<div id="titel"><h1>Publikationen</h1></div>
 		 	<!--#include virtual="/ssi/kopf.shtml" -->
 	</div></header>  <!-- end: kopf -->
@@ -34,13 +34,11 @@
 
 			<!-- TEXT AB HIER -->
 
+				<!--#include virtual="/vkdaten/tools/univis/publikationen.php"-->
 
-			<!--#include virtual="/vkdaten/tools/univis/publikationen.php" -->
+			<!-- AB HIER KEIN TEXT MEHR -->
 
-
-	   		<!-- AB HIER KEIN TEXT MEHR -->
-
-      		<hr id="vorfooter" />
+      		 <hr id="vorfooter" />
 	      	</div>  <!-- end: content -->
      	</div>  <!-- end: main -->
         <footer><div id="footer">  <!-- begin: footer -->

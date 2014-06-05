@@ -13,13 +13,12 @@
 
 	$name  = substr($_SERVER["PATH_INFO"], 1, -6);
 	$name = fix_for_page($name);
-	$name = split("-", $name,2);
+	$name = split("-", $name,-1);
 
 	$args["firstname"] = fix_for_page($name[0]);
 	$args["lastname"] = fix_for_page($name[count($name)-1]);
 
 	$controller = new Controller("mitarbeiter-einzeln", $args);
 	echo $controller->ladeHTML();
-
 
 ?>

@@ -2,7 +2,7 @@
 <html lang="de">
   <head>
 	  <!-- NAVEDITOR_TEMPL_TYPE=VORL -->
-    <title>$PLATZHALTER-NAME-WEBAUFTRITT : Wir &uuml;ber uns</title>
+    <title>$PLATZHALTER-NAME-WEBAUFTRITT : Lehrveranstaltungen</title>
     <!--#include virtual="/ssi/head.shtml" -->
   </head>
   <body id="start">  <!-- begin: body -->
@@ -12,7 +12,7 @@
 
       <header><div id="kopf">  <!-- begin: kopf -->
 		  	<div id="logo"><a href="/"></a><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</span></p></div>
-			<div id="titel"><h1>Wir &uuml;ber uns</h1></div>
+			<div id="titel"><h1>Lehrveranstaltungen</h1></div>
 		 	<!--#include virtual="/ssi/kopf.shtml" -->
 	</div></header>  <!-- end: kopf -->
       	<hr id="nachkopf" />
@@ -34,13 +34,11 @@
 
 			<!-- TEXT AB HIER -->
 
-
-			<!--#include virtual="/vkdaten/tools/univis/lehrveranstaltungen-einzeln.php" -->
-
+				<!--#include virtual="/vkdaten/tools/univis/lehrveranstaltungen-alle.php" -->
 
 	   		<!-- AB HIER KEIN TEXT MEHR -->
 
-      		<hr id="vorfooter" />
+      		 <hr id="vorfooter" />
 	      	</div>  <!-- end: content -->
      	</div>  <!-- end: main -->
         <footer><div id="footer">  <!-- begin: footer -->

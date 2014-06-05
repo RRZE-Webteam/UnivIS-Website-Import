@@ -13,7 +13,7 @@
 							{{/full-profile}}
 
 							{{^full-profile}}
-								{{name}};
+								{{lastname}};
 							{{/full-profile}}
 						{{/pkey}}
 					{{/author}}

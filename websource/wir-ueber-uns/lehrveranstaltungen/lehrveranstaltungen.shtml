@@ -2,16 +2,16 @@
 <html lang="de">
   <head>
 	  <!-- NAVEDITOR_TEMPL_TYPE=VORL -->
-    <title>$PLATZHALTER-NAME-WEBAUFTRITT : Lehrveranstaltungen</title>
+    <title>: Lehrveranstaltungen</title>
     <!--#include virtual="/ssi/head.shtml" -->
   </head>
-  <body id="start">  <!-- begin: body -->
+  <body>  <!-- begin: body -->
   <div class="page_margins">  <!-- begin: page_margins -->
     <div id="seite" class="page">  <!-- begin: seite -->
       <a name="seitenmarke" id="seitenmarke"></a>
 
       <header><div id="kopf">  <!-- begin: kopf -->
-		  	<div id="logo"><a href="/"></a><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</span></p></div>
+		  	<div id="logo"><p><a href="/">Lehrstuhl f&uuml;r B&uuml;rgerliches Recht, Deutsche und Europ&auml;ische Rechtsgeschichte</a></p></div>
 			<div id="titel"><h1>Lehrveranstaltungen</h1></div>
 		 	<!--#include virtual="/ssi/kopf.shtml" -->
 	</div></header>  <!-- end: kopf -->
@@ -33,10 +33,8 @@
 			<!--#include virtual="/ssi/inhaltsinfo.shtml" -->
 
 			<!-- TEXT AB HIER -->
-
-			<!--#include virtual="/vkdaten/tools/univis/lehrveranstaltungen-alle.php" -->
-
-	   		<!-- AB HIER KEIN TEXT MEHR -->
+<br /><!--#include virtual="/vkdaten/tools/univis/lehrveranstaltungen-einzeln.php"-->
+<!-- AB HIER KEIN TEXT MEHR -->
 
       		 <hr id="vorfooter" />
 	      	</div>  <!-- end: content -->

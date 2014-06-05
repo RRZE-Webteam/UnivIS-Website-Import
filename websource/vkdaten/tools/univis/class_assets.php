@@ -62,6 +62,7 @@ class Assets {
 			return NULL;
 		}
 		return file_get_contents($filepath);
+		//return $filepath;
 	}
 
 	private function holeDownloadLink() {
@@ -89,7 +90,7 @@ class Assets {
 		switch ($optionen["task"]) {
 			case 'mitarbeiter-alle':				return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'mitarbeiter-orga':				return $path."/".(int)$optionen["UnivISOrgNr"];
-			case 'mitarbeiter-einzeln':				return $path."/".strtolower($optionen["firstname"]."-".$optionen["lastname"]);
+			case 'mitarbeiter-einzeln':				return $path."/".substr(end(explode("/",$_SERVER['REQUEST_URI'])), 0, -6);
 			case 'lehrveranstaltungen-alle':		return $path."/".(int)$optionen["UnivISOrgNr"];
 			case 'lehrveranstaltungen-einzeln':		return $path."/".(int)$optionen["id"];
 			case 'lehrveranstaltungen-kalender':	return $path."/".(int)$optionen["UnivISOrgNr"];
@@ -98,7 +99,6 @@ class Assets {
 			default:								return -1;
 		}
 	}
-
 }
 
 ?>

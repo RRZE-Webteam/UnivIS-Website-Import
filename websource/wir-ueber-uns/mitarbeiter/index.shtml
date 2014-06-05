@@ -11,7 +11,7 @@
       <a name="seitenmarke" id="seitenmarke"></a>
 
       <header><div id="kopf">  <!-- begin: kopf -->
-		  	<div id="logo"><a href="/"></a><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</span></p></div>
+		  	<div id="logo"><a href="/"></a><p><a href="/">$PLATZHALTER-NAME-WEBAUFTRITT</p></div>
 			<div id="titel"><h1>Mitarbeiter</h1></div>
 		 	<!--#include virtual="/ssi/kopf.shtml" -->
 	</div></header>  <!-- end: kopf -->
@@ -34,11 +34,9 @@
 
 			<!-- TEXT AB HIER -->
 
+				<!--#include virtual="/vkdaten/tools/univis/mitarbeiter-alle.php" -->
 
-			<!--#include virtual="/vkdaten/tools/univis/mitarbeiter-einzeln.php" -->
-
-
-			<!-- AB HIER KEIN TEXT MEHR -->
+	   		<!-- AB HIER KEIN TEXT MEHR -->
 
       		<hr id="vorfooter" />
 	      	</div>  <!-- end: content -->

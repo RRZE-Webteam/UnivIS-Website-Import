@@ -88,7 +88,6 @@ class UNIVIS {
 	private function _ladeMitarbeiterAlle() {
 		// Hole Daten von Univis
 		$url = $this->univis_url."?search=departments&number=".$this->optionen["UnivISOrgNr"]."&show=xml";
-
 		if(!fopen($url, "r")) {
 			// Univis Server ist nicht erreichbar
 			return -1;
@@ -100,8 +99,15 @@ class UNIVIS {
 		if($this->optionen["Sortiere_Jobs"]) {
 
 			$jobs = $daten["Org"][0]["jobs"][0]["job"];
-
+			$jobnamen = array();
+			$jobs_vergeben = array();
 			$xjobs = array();
+
+
+			foreach ($jobs as $job)
+			{
+				$jobnamen[] = $job['description'];
+			}
 
 			if($this->optionen["Ignoriere_Jobs"]) {
 				$xjobs = explode("|", $this->optionen["Ignoriere_Jobs"]);
@@ -114,6 +120,14 @@ class UNIVIS {
 				if(in_array($jobs[$i]["description"], $xjobs)) {
 					continue;
 				}
+				if (
+					(!in_array($jobs[$i]["description"], $jobs_vergeben))
+					AND
+					(count($jobs[$i]["pers"][0]["per"]) > 0)
+				)
+				{
+					$jobs_vergeben[] = $jobs[$i]["description"];
+				}
 
 				for ($j=0; $j < count($jobs[$i]["pers"][0]["per"]); $j++) {
 					if($personen_jobs[$jobs[$i]["pers"][0]["per"][$j]["UnivISRef"][0]["key"]]) {
@@ -125,6 +139,7 @@ class UNIVIS {
 				}
 			}
 
+
 			for ($k=0; $k < count($daten["Person"]); $k++) {
 				$key = $daten["Person"][$k]["@attributes"]["key"];
 
@@ -133,8 +148,8 @@ class UNIVIS {
 				}
 			}
 		}
-
-		return $daten["Person"];
+		$daten['jobs'] = $jobs_vergeben;
+		return $daten;
 	}
 
 
