@@ -96,7 +96,6 @@ class Render {
 			$name = $person["firstname"]."-".$person["lastname"];
 			$person["nameurl"] = strtolower($this->umlaute_ersetzen($name));
 
-			//$person["nameurl"] = str_replace("-", "_", $person["nameurl"]);
 			$person["nameurl"] = str_replace(" ", "-", $person["nameurl"]);
 
 			$gruppen_namen = explode("|", $person[$such_kategorie]);
@@ -110,12 +109,11 @@ class Render {
 			}
 		}
 
-#		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
 		foreach ($jobnamen as $gruppen_name) {
 			$gruppen_personen = $gruppen_dict[$gruppen_name];
 			$gruppen_obj = array(
 				"name" => $gruppen_name,
-				"personen" => $gruppen_personen
+				"personen" => $this->record_sort($gruppen_personen, "lastname")
 			);
 
 			array_push($gruppen, $gruppen_obj);
