@@ -113,7 +113,8 @@ class Render {
 			$gruppen_personen = $gruppen_dict[$gruppen_name];
 			$gruppen_obj = array(
 				"name" => $gruppen_name,
-				"personen" => $this->record_sort($gruppen_personen, "lastname")
+				//"personen" => $this->record_sort($gruppen_personen, "lastname")
+				"personen" => $this->array_orderby($gruppen_personen, "lastname", SORT_ASC, "firstname", SORT_ASC)
 			);
 
 			array_push($gruppen, $gruppen_obj);
@@ -137,7 +138,13 @@ class Render {
 				}
 			}
 
-			$personen = $this->record_sort($personen, "lastname");
+			$personen = $this->record_sort($personen, "id");
+			$personen = $this->array_orderby($personen,"lastname", SORT_ASC, "firstname", SORT_ASC );
+
+			echo '<pre>';
+			print_r($personen);
+			echo '</pre>';
+
 
 			$gruppe = array("name" => "Alle Mitarbeiter", "personen" => $personen);
 			$gruppen = array($gruppe);
@@ -191,7 +198,7 @@ class Render {
 		foreach ($gruppen_dict as $gruppen_name => $gruppen_personen) {
 			$gruppen_obj = array(
 				"name" => $gruppen_name,
-				"personen" => $gruppen_personen
+				"personen" => $this->array_orderby($gruppen_personen, "lastname", SORT_ASC, "firstname", SORT_ASC)
 			);
 
 			array_push($gruppen, $gruppen_obj);
@@ -216,7 +223,8 @@ class Render {
 				}
 			}
 
-			$personen = $this->record_sort($personen, "lastname");
+			$personen = $this->record_sort($personen, "id");
+			$personen = $this->array_orderby($personen,"lastname", SORT_ASC, "firstname", SORT_ASC );
 
 			$gruppe = array("name" => "Alle Mitarbeiter", "personen" => $personen);
 			$gruppen = array($gruppe);
@@ -621,6 +629,22 @@ class Render {
 	    }
 
 	    return $records;
+	}
+
+	private function array_orderby(){
+		$args = func_get_args();
+		$data = array_shift($args);
+		foreach ($args as $n => $field) {
+			if (is_string($field)) {
+				$tmp = array();
+				foreach ($data as $key => $row)
+					$tmp[$key] = $row[$field];
+				$args[$n] = $tmp;
+			}
+		}
+		$args[] = &$data;
+		call_user_func_array('array_multisort', $args);
+		return array_pop($args);
 	}
 
 }
