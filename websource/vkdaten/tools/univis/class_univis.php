@@ -257,7 +257,7 @@ class UNIVIS {
 		}
 
 		//Personen informationen einfügen
-		$this->univis_refs_ersetzen($refs, &$publications);
+		$this->univis_refs_ersetzen($refs, $publications);
 
 		return $publications;
 
@@ -286,7 +286,7 @@ class UNIVIS {
 
 
 		//Personen informationen einfügen
-		$this->univis_refs_ersetzen($univis_refs, &$veranstaltungen);
+		$this->univis_refs_ersetzen($univis_refs, $veranstaltungen);
 
 		return $veranstaltungen;
 
@@ -322,7 +322,7 @@ class UNIVIS {
 
 		//Ersetze Referenzen
 		$univis_refs = $this->_get_univis_ref($array);
-		$this->univis_refs_ersetzen($univis_refs, &$veranstaltung);
+		$this->univis_refs_ersetzen($univis_refs, $veranstaltung);
 
 		return $veranstaltung;
 
@@ -376,7 +376,7 @@ class UNIVIS {
 	}
 
 	// Ersetzt die Referenzen von Univis durch den jeweilig dazugehoerigen Datensatz.
-	private function univis_refs_ersetzen($refs, $arr) {
+	private function univis_refs_ersetzen($refs, &$arr) {
 		$search_results = array();
 		$search_key = "UnivISRef";
 
@@ -386,7 +386,7 @@ class UNIVIS {
 			}
 
 			if(is_array($child)) {
-				$this->univis_refs_ersetzen($refs, &$child);
+				$this->univis_refs_ersetzen($refs, $child);
 			}
 		}
 		return $search_results;

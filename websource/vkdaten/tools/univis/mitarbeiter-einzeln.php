@@ -3,7 +3,7 @@
 
 	function fix_for_page($value){
 	    $value = htmlspecialchars(trim($value));
-	    if (get_magic_quotes_gpc()) 
+	    if (get_magic_quotes_gpc())
 	        $value = stripslashes($value);
 	    return $value;
 	}
@@ -13,7 +13,8 @@
 
 	$name  = substr($_SERVER["PATH_INFO"], 1, -6);
 	$name = fix_for_page($name);
-	$name = split("-", $name,-1);
+	//$name = split("-", $name,-1);
+	$name = explode("-", $name);
 
 	$args["firstname"] = fix_for_page($name[0]);
 	$args["lastname"] = fix_for_page($name[count($name)-1]);
