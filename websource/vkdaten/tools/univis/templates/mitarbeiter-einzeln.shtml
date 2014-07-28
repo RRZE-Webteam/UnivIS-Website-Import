@@ -22,10 +22,13 @@
 		<address>
 		    <p>
 			    <span class="org">
-			        <span class="organization-name">Zentrale Einrichtungen</span><br />
+			        <!--<span class="organization-name">Zentrale Einrichtungen</span><br />-->
 			        {{#orgunits}}
-			        <span class="organization-unit">Abteilung {{orgunit}}</span><br />
+			        <span class="organization-unit">{{orgunit}}</span><br />
 			        {{/orgunits}}
+					{{#work}}
+			        <span class="work">{{work}}</span><br />
+			        {{/work}}
 			    </span>
 		    </p>
 
