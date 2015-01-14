@@ -41,7 +41,6 @@ class UNIVIS {
 	function __construct($optionen) {
 
 		$this->optionen = $optionen;
-
 	}
 
 	public function ladeDaten() {
@@ -61,7 +60,7 @@ class UNIVIS {
 					break;
 
 				case "publikationen":
-					$this->daten = $this->_ladePublikationen();
+					$this->daten = $this->_ladePublikationen(NULL, $this->optionen["type"]);
 					break;
 
 				case "lehrveranstaltungen-alle":
@@ -218,7 +217,7 @@ class UNIVIS {
 
 		// Lade Publikationen und Lehrveranstaltungen falls noetig
 		if ($this->optionen["Personenanzeige_Publikationen"]) {
-			$person["publikationen"] = $this->_ladePublikationen($person["id"]);
+			$person["publikationen"] = $this->_ladePublikationen($person["id"], NULL);
 		}
 
 		if ($this->optionen["Personenanzeige_Lehrveranstaltungen"]) {
@@ -228,9 +227,14 @@ class UNIVIS {
 		return $person;
 	}
 
-	private function _ladePublikationen($authorid = NULL) {
+	private function _ladePublikationen($authorid = NULL, $pubtype = NULL) {
 		// Hole Daten von Univis
 		$url = $this->univis_url."?search=publications&show=xml&department=" . $this->optionen["UnivISOrgNr"];
+
+		if($pubtype) {
+			// Suche nur Publikationen von einen bestimmten Autoren
+			$url .= "&type=".$pubtype;
+		}
 
 		if($authorid) {
 			// Suche nur Publikationen von einen bestimmten Autoren
@@ -381,7 +385,7 @@ class UNIVIS {
 		$search_key = "UnivISRef";
 
 		foreach ($arr as &$child) {
-			if(array_key_exists($search_key, $child)) {
+			if(@array_key_exists($search_key, $child)) {
 				$child = $refs[$child[$search_key][0]["key"]];
 			}
 
